@@ -378,26 +378,7 @@ Then implement the behavior in:
 }
 ```
 
----
 
-## 🤝 Contributing
-
-Contributions are welcome! Here's how you can help:
-
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
-
-### Contribution Guidelines
-
-- Follow existing code style
-- Add JSDoc comments for new functions
-- Test commands before submitting
-- Update README if adding new features
-
----
 
 ## 📝 License
 
@@ -431,59 +412,13 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ---
 
-## 🔮 Roadmap
-
-- [ ] Add database support for persistent curses
-- [ ] Multi-language support (English translation)
-- [ ] Web dashboard for bot management
-- [ ] Music playback commands
-- [ ] Advanced moderation tools
-- [ ] Custom curse creation system
-- [ ] Statistics and analytics
-
----
-
-## 🐛 Known Issues
-
-- Curse persistence is lost on bot restart (no database)
-- Some curse types may conflict with server permissions
-- Hidden mode requires DM permissions
-
----
-
-## 💡 Tips & Tricks
-
-### For Server Admins
-- Use `!auto` for important reminders
-- Hidden curses are great for April Fools
-- Monitor `!curse list` to see active curses
-
-### For Users
-- Check `!help` regularly for new commands
-- Use `!curse types` to see all curse options
-- Be careful with `!roulettemute` in voice channels!
-
----
-
-## 📞 Support
-
-For questions, issues, or feature requests:
-- Open an [Issue](https://github.com/LeigerMax/Discord_Bot/issues)
-- Contact: [@LeigerMax](https://github.com/LeigerMax)
-
----
-
 ## 🙏 Acknowledgments
 
 - Built with [Discord.js](https://discord.js.org/)
-- Inspired by various Discord bot communities
-- Special thanks to all contributors
 
 ---
 
 **Developed by:** [@LeigerMax](https://github.com/LeigerMax)
-
-**Last Updated:** January 2026
 
 ---
 
