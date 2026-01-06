@@ -1,3 +1,9 @@
+/**
+ * @file Slap Command
+ * @description Envoie un GIF de tape à un utilisateur (blague)
+ * @version 1.0.0
+ */
+
 const { EmbedBuilder } = require('discord.js');
 const fetch = require('node-fetch');
 const { trackDM } = require('../../events/dmReply');

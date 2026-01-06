@@ -1,3 +1,9 @@
+/**
+ * Commande pour envoyer un message automatiquement tous les X secondes
+ * @param {Message} message - Le message Discord
+ * @param {Array} args - Les arguments de la commande 
+ */
+
 const { EmbedBuilder } = require('discord.js');
 
 // Stockage des intervalles actifs
@@ -46,7 +52,7 @@ module.exports = {
       const autoMessage = args.slice(1).join(' ');
 
       // Validation du temps
-      if (isNaN(interval) || interval < 10) {
+      if (Number.isNaN(interval) || interval < 10) {
         return message.reply('❌ Le temps doit être un nombre supérieur ou égal à 10 secondes!');
       }
 

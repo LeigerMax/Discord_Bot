@@ -1,3 +1,9 @@
+/**
+ * @file Random Command
+ * @description Choisit une option au hasard parmi celles fournies
+ * @version 1.0.0
+ */
+
 module.exports = {
   name: 'random',
   description: 'Choisit une option au hasard parmi celles fournies',

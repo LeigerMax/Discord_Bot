@@ -1,3 +1,9 @@
+/**
+ * @file Dice Command
+ * @description Lance un dé à 6 faces
+ * @version 1.0.0
+ */
+
 const { EmbedBuilder } = require('discord.js');
 
 module.exports = {

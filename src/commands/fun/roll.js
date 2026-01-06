@@ -1,3 +1,9 @@
+/**
+ * @file Roll Command
+ * @description Lance un nombre aléatoire entre 1 et 100
+ * @version 1.0.0
+ */
+
 const { EmbedBuilder } = require('discord.js');
 
 module.exports = {

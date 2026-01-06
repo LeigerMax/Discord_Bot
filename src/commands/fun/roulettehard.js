@@ -1,3 +1,9 @@
+/**
+ * @file Roulette Hard Command
+ * @description Sélectionne un joueur aléatoire du vocal et l'exclut 5 minutes
+ * @version 1.0.0
+ */
+
 const { EmbedBuilder } = require('discord.js');
 
 module.exports = {

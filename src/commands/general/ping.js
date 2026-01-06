@@ -1,3 +1,10 @@
+
+/**
+ * Commande ping pour afficher la latence du bot
+ * @param {Message} message - Le message Discord
+ * @param {Array} args - Les arguments de la commande
+ */
+
 const { EmbedBuilder } = require('discord.js');
 
 module.exports = {

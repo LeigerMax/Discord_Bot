@@ -1,3 +1,9 @@
+/**
+ * @file RouletteMute Command
+ * @description Sélectionne un joueur aléatoire du vocal et le mute 5 minutes (mute forcé)
+ * @version 1.0.0
+ */
+
 const { EmbedBuilder } = require('discord.js');
 
 // Map pour stocker les membres mutés et leurs timeouts

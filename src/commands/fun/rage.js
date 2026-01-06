@@ -1,3 +1,9 @@
+/**
+ * @file Rage Command
+ * @description Calcule ton niveau de rage actuel
+ * @version 1.0.0
+ */
+
 const { EmbedBuilder } = require('discord.js');
 
 module.exports = {

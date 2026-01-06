@@ -1,23 +1,33 @@
-const { EmbedBuilder } = require('discord.js');
+/**
+ * @file Presence Update Event
+ * @description Événement presenceUpdate pour un user
+ * @param {Client} client - Le client Discord
+ * @version 1.0.0
+ */
 
-const MIGUEL_ID = '244865484065996800';
+
+const { EmbedBuilder } = require('discord.js');
+const LOOSER_ID = process.env.LOOSER_ID;
+const ACTIVITY_SALON_ID = process.env.ACTIVITY_SALON_ID;
 
 module.exports = (client) => {
   client.on('presenceUpdate', async (oldPresence, newPresence) => {
     try {
-      // Vérifie si c'est Miguel
-      if (newPresence.userId !== MIGUEL_ID) return;
+
+      const channel = newPresence.guild.channels.cache.get(ACTIVITY_SALON_ID);
+      if (!channel) return;
+
+      // Vérifie l'user
+      if (newPresence.userId !== LOOSER_ID) return;
 
       const oldStatus = oldPresence?.status || 'offline';
       const newStatus = newPresence.status;
 
       const guild = newPresence.guild;
-      const member = await guild.members.fetch(MIGUEL_ID).catch(() => null);
+      const member = await guild.members.fetch(LOOSER_ID).catch(() => null);
       
       if (!member) return;
 
-      const channel = guild.channels.cache.get('1026560355977142353');
-      if (!channel) return;
 
       // Vérifie s'il vient de se connecter (était offline, maintenant online/idle/dnd)
       if (oldStatus === 'offline' && (newStatus === 'online' || newStatus === 'idle' || newStatus === 'dnd')) {
@@ -25,7 +35,7 @@ module.exports = (client) => {
           .setColor(0xFFD700)
           .setTitle('👑 Le Nul est en ligne!')
           .setDescription(
-            `✨ **Miguel** vient de se connecter sur Discord!\n\n` +
+            `✨ **${member.user.username}** vient de se connecter sur Discord!\n\n` +
             `*Le nul nous fait l'honneur de sa présence*`
           )
           .setThumbnail(member.user.displayAvatarURL({ dynamic: true, size: 256 }))
@@ -40,9 +50,9 @@ module.exports = (client) => {
       if (oldStatus !== 'offline' && newStatus === 'offline') {
         const embed = new EmbedBuilder()
           .setColor(0x000000)
-          .setTitle('👋 Miguel s\'est déconnecté')
+          .setTitle(`👋 ${member.user.username} s'est déconnecté`)
           .setDescription(
-            `🚪 **Miguel** vient de se déconnecter de Discord\n\n` +
+            `🚪 **${member.user.username}** vient de se déconnecter de Discord\n\n` +
             `*Le nul a fui...*`
           )
           .setThumbnail(member.user.displayAvatarURL({ dynamic: true, size: 256 }))
@@ -57,9 +67,9 @@ module.exports = (client) => {
       if (oldStatus !== 'dnd' && newStatus === 'dnd') {
         const embed = new EmbedBuilder()
           .setColor(0xFF0000)
-          .setTitle('🚫 Miguel ne veut pas être dérangé')
+          .setTitle(`🚫 ${member.user.username} ne veut pas être dérangé`)
           .setDescription(
-            `😡 **Miguel** s'est mis en "Ne pas déranger"\n\n` +
+            `😡 **${member.user.username}** s'est mis en "Ne pas déranger"\n\n` +
             `*Le nul est en colère...*`
           )
           .setThumbnail(member.user.displayAvatarURL({ dynamic: true, size: 256 }))
@@ -70,8 +80,25 @@ module.exports = (client) => {
         await channel.send({ embeds: [embed] });
       }
 
+      // Vérifie s'il vient de passer en "Inactif"
+      if (oldStatus !== 'idle' && newStatus === 'idle') {
+        const embed = new EmbedBuilder()
+          .setColor(0xFFFF00)
+          .setTitle(`💤 ${member.user.username} est maintenant inactif`)
+          .setDescription(
+            `😴 **${member.user.username}** s'est mis en "Inactif"\n\n` +
+            `*Le nul est parti chier dans un coin de sa maison...*`
+          )
+          .setThumbnail(member.user.displayAvatarURL({ dynamic: true, size: 256 }))
+          .setImage('https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExcGQwNjBqYXpyc3ZpbjhwcWgxNDFrcW5ycHl5bDVwdnQwZ3VpMmpvaSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/Wds8J0sb4fnKo/giphy.gif')
+          .setFooter({ text: 'Le nul se vide' })
+          .setTimestamp();
+
+        await channel.send({ embeds: [embed] });
+      }
+
     } catch (error) {
-      console.error('Erreur dans presenceUpdate (Miguel):', error);
+      console.error('Erreur dans presenceUpdate :', error);
     }
   });
 };

@@ -1,3 +1,9 @@
+/**
+ * @file Wifi Command
+ * @description Vérifie la qualité de ta connexion
+ * @version 1.0.0
+ */
+
 const { EmbedBuilder } = require('discord.js');
 
 module.exports = {
@@ -16,7 +22,7 @@ module.exports = {
         { emoji: '📶', ping: '35', status: 'Excellent', description: 'Ping ultra stable', color: 0x00FF00, chance: 20 },
         { emoji: '📶', ping: '89', status: 'Jouable', description: 'Quelques microlags', color: 0xFFFF00, chance: 25 },
         { emoji: '📶', ping: '145', status: 'Moyen', description: 'Commence à sentir le delay', color: 0xFF9900, chance: 20 },
-        { emoji: '📶', ping: '240', status: 'Injouable', description: 'Teleport detected', color: 0xFF0000, chance: 15 },
+        { emoji: '📶', ping: '240', status: 'Injouable', description: 'Ta mère change de chaine, non ?', color: 0xFF0000, chance: 15 },
         { emoji: '📶', ping: '999', status: 'Catastrophique', description: 'Internet Explorer vibes', color: 0x8B0000, chance: 4 },
         { emoji: '📶', ping: '∞', status: 'Ping infini', description: 'Rollback detected', color: 0x000000, chance: 1 }
       ];

@@ -1,3 +1,9 @@
+/**
+ * @file Spam Command
+ * @description Spam un joueur avec des mentions puis supprime tout
+ * @version 1.0.0
+ */
+
 const { EmbedBuilder } = require('discord.js');
 
 module.exports = {

@@ -1,3 +1,9 @@
+/**
+ * @file Monitor Command
+ * @description Vérifie l'état de ton écran
+ * @version 1.0.0
+ */
+
 const { EmbedBuilder } = require('discord.js');
 
 module.exports = {

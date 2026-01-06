@@ -1,3 +1,9 @@
+/**
+ * @file DM Reply Event
+ * @description Module pour gérer les réponses aux messages privés. Permet de transférer les réponses des utilisateurs vers l'expéditeur original
+ * @version 1.0.0
+ */
+
 const { EmbedBuilder } = require('discord.js');
 
 // Map pour stocker les relations: destinataire -> expéditeur original
@@ -42,7 +48,6 @@ module.exports = {
         
         if (!originalSender) return;
         
-        // Crée un embed pour transférer le message
         const replyEmbed = new EmbedBuilder()
           .setColor(0x5865F2)
           .setTitle('💬 Réponse à ton message secret')

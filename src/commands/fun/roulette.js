@@ -1,3 +1,9 @@
+/**
+ * @file Roulette Command
+ * @description Sélectionne un joueur aléatoire du vocal et le déconnecte
+ * @version 1.0.0
+ */
+
 const { EmbedBuilder } = require('discord.js');
 
 module.exports = {

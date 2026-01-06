@@ -1,3 +1,8 @@
+/**
+ * @file Coach Command
+ * @description Fournit un conseil de coach gaming, sérieux ou troll.
+ * @version 1.0.0
+ */
 const { EmbedBuilder } = require('discord.js');
 
 module.exports = {

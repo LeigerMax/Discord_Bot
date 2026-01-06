@@ -1,6 +1,13 @@
+
+/**
+ * Commande help pour afficher toutes les commandes disponibles avec menu de sélection
+ * @param {Message} message - Le message Discord
+ * @param {Array} args - Les arguments de la commande
+ */
+
 const { EmbedBuilder, ActionRowBuilder, StringSelectMenuBuilder, StringSelectMenuOptionBuilder } = require('discord.js');
-const fs = require('fs');
-const path = require('path');
+const fs = require('node:fs');
+const path = require('node:path');
 
 module.exports = {
   name: 'help',
@@ -25,7 +32,7 @@ module.exports = {
         'utility': '🔧'
       };
 
-      // Noms français pour les catégories
+      // Noms pour les catégories
       const categoryNames = {
         'admin': 'Administration',
         'fun': 'Divertissement',
@@ -39,7 +46,7 @@ module.exports = {
       const commandsByCategory = {};
       let totalCommands = 0;
 
-      for (const category of categories.sort()) {
+      for (const category of categories.toSorted((a, b) => a.localeCompare(b))) {
         const categoryPath = path.join(commandsPath, category);
         const commandFiles = fs.readdirSync(categoryPath).filter(file => file.endsWith('.js'));
         

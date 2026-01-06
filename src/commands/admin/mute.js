@@ -1,3 +1,9 @@
+/**
+ * Commande pour muter un utilisateur dans un salon vocal pendant une durée définie (mute forcé)
+ * @param {Message} message - Le message Discord
+ * @param {Array} args - Les arguments de la commande 
+ */
+
 const { EmbedBuilder } = require('discord.js');
 
 // Map pour stocker les membres mutés et leurs timeouts
@@ -23,7 +29,7 @@ module.exports = {
       // Vérifie que la durée est fournie
       const duration = parseInt(args[1]);
       
-      if (!duration || isNaN(duration) || duration < 1) {
+      if (!duration || Number.isNaN(duration) || duration < 1) {
         return message.reply({
           content: '❌ **Erreur**: Tu dois spécifier une durée valide (en minutes)!\n' +
                    '**Exemple**: `!mute @utilisateur 5`'

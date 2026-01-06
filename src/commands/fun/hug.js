@@ -1,3 +1,9 @@
+/**
+ * @file Hug Command
+ * @description Envoie un GIF de câlin à un utilisateur
+ * @version 1.0.0
+ */
+
 const { EmbedBuilder } = require('discord.js');
 const fetch = require('node-fetch');
 const { trackDM } = require('../../events/dmReply');
@@ -35,7 +41,7 @@ module.exports = {
       const response = await fetch(url);
       const data = await response.json();
       
-      if (!data.data || !data.data.images) {
+      if (!data.data?.images) {
         return message.reply('❌ Impossible de récupérer un GIF pour le moment.');
       }
 

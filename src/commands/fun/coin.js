@@ -1,3 +1,9 @@
+/**
+ * @file Coin Command
+ * @description Lance une pièce - Pile ou Face
+ * @version 1.0.0
+ */
+
 const { EmbedBuilder } = require('discord.js');
 
 module.exports = {

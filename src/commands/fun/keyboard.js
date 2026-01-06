@@ -1,3 +1,9 @@
+/**
+ * @file Keyboard Command
+ * @description Vérifie l'état du clavier d'un utilisateur
+ * @version 1.0.0
+ */
+
 const { EmbedBuilder } = require('discord.js');
 
 module.exports = {

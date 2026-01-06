@@ -1,3 +1,9 @@
+/**
+ * @file Who Command
+ * @description Choisit une personne aléatoire connectée dans le salon vocal
+ * @version 1.0.0
+ */
+
 const { EmbedBuilder } = require('discord.js');
 
 module.exports = {
