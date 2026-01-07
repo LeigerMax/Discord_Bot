@@ -109,9 +109,9 @@ A feature-rich Discord bot with fun commands, admin tools, and an advanced curse
 
 - [Node.js](https://nodejs.org/) v16.9.0 or higher
 - [Discord Bot Token](https://discord.com/developers/applications)
-- npm or yarn package manager
+- npm package manager (inclus avec Node.js)
 
-### Steps
+### Quick Start
 
 1. **Clone the repository**
    ```bash
@@ -119,10 +119,21 @@ A feature-rich Discord bot with fun commands, admin tools, and an advanced curse
    cd Discord_Bot
    ```
 
-2. **Install dependencies**
+2. **Install all dependencies**
    ```bash
    npm install
    ```
+   
+   This will automatically install all required packages:
+   - `discord.js` ^14.25.1 - Discord API library
+   - `@discordjs/voice` ^0.19.0 - Voice support
+   - `express` ^5.2.1 - Web server (keep-alive)
+   - `dotenv` ^17.2.3 - Environment variables
+   - `node-fetch` ^2.7.0 - HTTP client
+   - `play-dl` ^1.9.7 - Audio streaming
+   - `@snazzah/davey` ^0.1.8 - Discord utilities
+   
+   📋 **See [DEPENDENCIES.md](DEPENDENCIES.md) for detailed dependency information and troubleshooting**
 
 3. **Configure environment variables**
    
@@ -131,12 +142,30 @@ A feature-rich Discord bot with fun commands, admin tools, and an advanced curse
    DISCORD_TOKEN=your_bot_token_here
    LOOSER_ID=user_id_to_track
    ACTIVITY_SALON_ID=channel_id_for_activity_logs
+   PORT=8080
    ```
 
-4. **Start the bot**
+4. **Configure Discord Developer Portal**
+   
+   Enable these Gateway Intents in your [Discord Application](https://discord.com/developers/applications):
+   - ✅ **Server Members Intent**
+   - ✅ **Message Content Intent**
+   - ✅ **Presence Intent**
+
+5. **Start the bot**
    ```bash
    node src/bot.js
    ```
+   
+   The bot will start along with a web server on port 8080 to keep it alive (useful for free hosting services).
+
+### Alternative: Install Specific Versions
+
+If you encounter compatibility issues:
+
+```bash
+npm install discord.js@14.25.1 @discordjs/voice@0.19.0 dotenv@17.2.3 express@5.2.1 node-fetch@2.7.0 play-dl@1.9.7 @snazzah/davey@0.1.8
+```
 
 ---
 
@@ -171,11 +200,20 @@ GatewayIntentBits.DirectMessages
 
 ### Environment Variables
 
-| Variable | Description | Required |
-|----------|-------------|----------|
-| `DISCORD_TOKEN` | Your Discord bot token | ✅ Yes |
-| `LOOSER_ID` | User ID for presence tracking | ❌ Optional |
-| `ACTIVITY_SALON_ID` | Channel ID for activity logs | ❌ Optional |
+| Variable | Description | Required | Default |
+|----------|-------------|----------|---------|
+| `DISCORD_TOKEN` | Your Discord bot token | ✅ Yes | - |
+| `PORT` | Port for keep-alive web server | ❌ Optional | 8080 |
+| `LOOSER_ID` | User ID for presence tracking | ❌ Optional | - |
+| `ACTIVITY_SALON_ID` | Channel ID for activity logs | ❌ Optional | - |
+
+### Keep-Alive System
+
+The bot includes an Express web server that keeps it running 24/7 (useful for free hosting platforms like Replit, Glitch, etc.):
+- Starts automatically with the bot
+- Accessible at `http://localhost:8080` (or your configured PORT)
+- Returns "Le bot est en ligne !" on root endpoint
+- Use with [UptimeRobot](https://uptimerobot.com/) to ping your bot URL every 5 minutes
 
 ---
 
