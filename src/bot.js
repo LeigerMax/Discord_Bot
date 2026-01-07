@@ -7,6 +7,7 @@ require('dotenv').config();
 const { Client, GatewayIntentBits } = require('discord.js');
 const path = require('node:path');
 const CommandHandler = require('./utils/commandHandler');
+const keepAlive = require('./services/keepAlive');
 
 // Permissions et intents du bot
 const client = new Client({
@@ -82,5 +83,8 @@ client.login(process.env.DISCORD_TOKEN).catch(error => {
   console.error('Erreur de connexion:', error);
   process.exit(1);
 });
+
+// Démarre le serveur web pour garder le bot actif
+keepAlive();
 
 
