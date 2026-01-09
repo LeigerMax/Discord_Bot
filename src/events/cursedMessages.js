@@ -146,7 +146,6 @@ function oppositeMessage(text) {
     'affreux': 'merveilleux',
     
     // Émotions
-    'aime': 'déteste',
     'adore': 'hais',
     'déteste': 'adore',
     'hais': 'adore',

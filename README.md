@@ -1,5 +1,8 @@
 # Discord Bot
 
+![CI](https://github.com/LeigerMax/Discord_Bot/workflows/CI%20-%20Tests%20%26%20Linting/badge.svg)
+![Coverage](https://img.shields.io/codecov/c/github/LeigerMax/Discord_Bot)
+
 A feature-rich Discord bot with fun commands, admin tools, and an advanced curse system for enhanced server entertainment.
 
 **Developed by:** [@LeigerMax](https://github.com/LeigerMax)
