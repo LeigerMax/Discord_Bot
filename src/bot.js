@@ -30,7 +30,7 @@ const commandHandler = new CommandHandler(client, '!');
 client.commandHandler = commandHandler;
 
 // Événement: Bot prêt
-client.once('ready', () => {
+client.once('clientReady', () => {
   console.log(`\n${'='.repeat(50)}`);
   console.log(`Bot connecté en tant que ${client.user.tag}`);
   console.log(`Date: ${new Date().toLocaleString('fr-FR')}`);
