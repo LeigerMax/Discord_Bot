@@ -1,0 +1,18 @@
+{
+  "current": "0.1.0",
+  "releaseDate": "11 Janvier 2026",
+  "changelog": {
+    "v0.1.0": {
+      "date": "11 Janvier 2026",
+      "features": [
+        "Ajout de la commande !version"
+      ],
+      "fixes": [
+        "Correction du warning 'ready' → 'clientReady'",
+        "Correction du mute lors du départ d'un vocal"
+      ]
+    }
+  },
+  "developer": "Maxou",
+  "prefix": "!"
+}
