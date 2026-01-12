@@ -167,4 +167,7 @@ module.exports = {
       message.reply('❌ Une erreur est survenue lors du traitement de ta commande.');
     }
   },
+
+  // Export de la Map pour la commande override
+  mutedMembers
 };

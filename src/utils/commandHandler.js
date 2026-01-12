@@ -52,6 +52,65 @@ class CommandHandler {
   }
 
   /**
+   * Trouve les commandes similaires basées sur la distance de Levenshtein
+   * @param {string} input - La commande entrée par l'utilisateur
+   * @returns {Array<string>} - Liste des commandes similaires triées par pertinence
+   */
+  findSimilarCommands(input) {
+    const commandNames = Array.from(this.commands.keys());
+    const suggestions = [];
+
+    for (const cmdName of commandNames) {
+      // Distance de Levenshtein simplifiée
+      const distance = this.levenshteinDistance(input, cmdName);
+      
+      // Si la distance est faible (3 ou moins) ou si le début correspond
+      if (distance <= 3 || cmdName.startsWith(input) || input.startsWith(cmdName)) {
+        suggestions.push({ name: cmdName, distance });
+      }
+    }
+
+    // Trie par distance (les plus proches en premier)
+    suggestions.sort((a, b) => a.distance - b.distance);
+    
+    return suggestions.map(s => s.name);
+  }
+
+  /**
+   * Calcule la distance de Levenshtein entre deux chaînes
+   * @param {string} a - Première chaîne
+   * @param {string} b - Deuxième chaîne
+   * @returns {number} - Distance de Levenshtein
+   */
+  levenshteinDistance(a, b) {
+    const matrix = [];
+
+    for (let i = 0; i <= b.length; i++) {
+      matrix[i] = [i];
+    }
+
+    for (let j = 0; j <= a.length; j++) {
+      matrix[0][j] = j;
+    }
+
+    for (let i = 1; i <= b.length; i++) {
+      for (let j = 1; j <= a.length; j++) {
+        if (b.charAt(i - 1) === a.charAt(j - 1)) {
+          matrix[i][j] = matrix[i - 1][j - 1];
+        } else {
+          matrix[i][j] = Math.min(
+            matrix[i - 1][j - 1] + 1, // substitution
+            matrix[i][j - 1] + 1,     // insertion
+            matrix[i - 1][j] + 1      // suppression
+          );
+        }
+      }
+    }
+
+    return matrix[b.length][a.length];
+  }
+
+  /**
    * Traite un message et exécute la commande si elle existe
    * @param {Message} message - Le message Discord
    */
@@ -68,7 +127,19 @@ class CommandHandler {
 
     // Récupère la commande
     const command = this.commands.get(commandName);
-    if (!command) return;
+    
+    // Si la commande n'existe pas, suggère des alternatives
+    if (!command) {
+      const suggestions = this.findSimilarCommands(commandName);
+      if (suggestions.length > 0) {
+        const suggestionsList = suggestions.slice(0, 5).map(cmd => `\`${this.prefix}${cmd}\``).join(', ');
+        return message.reply({
+          content: `❌ Commande \`${commandName}\` introuvable.\n💡 **Suggestions**: ${suggestionsList}\n\nUtilise \`${this.prefix}help\` pour voir toutes les commandes.`,
+          allowedMentions: { repliedUser: false }
+        });
+      }
+      return; // Pas de suggestions, ignore silencieusement
+    }
 
     // Vérifie si le joueur est maudit
     const curseCommand = this.commands.get('curse');

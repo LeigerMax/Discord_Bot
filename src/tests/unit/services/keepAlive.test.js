@@ -3,43 +3,32 @@
  * Vérifie le bon fonctionnement du serveur Express
  */
 
+// Mock express avant d'importer keepAlive
+const mockApp = {
+  get: jest.fn(),
+  listen: jest.fn((port, host, callback) => {
+    if (callback) callback();
+    return { close: jest.fn() };
+  })
+};
+
+jest.mock('express', () => {
+  return jest.fn(() => mockApp);
+});
+
+const keepAlive = require('../../../services/keepAlive');
 
 describe('KeepAlive Service', () => {
   
-  let keepAlive;
-  let mockApp;
-  let mockListen;
   let consoleLogSpy;
 
   beforeEach(() => {
-    jest.resetModules();
-    
     consoleLogSpy = jest.spyOn(console, 'log').mockImplementation(() => {});
-
-    // Mock d'express
-    mockListen = jest.fn((port, host, callback) => {
-      // Simuler l'appel du callback après le démarrage
-      if (callback) callback();
-      return { close: jest.fn() };
-    });
-
-    mockApp = {
-      get: jest.fn(),
-      listen: mockListen
-    };
-
-    // Mock du module express
-    jest.mock('express', () => {
-      return jest.fn(() => mockApp);
-    });
-
-    // Recharger keepAlive avec les mocks
-    keepAlive = require('../../../../src/services/keepAlive');
+    jest.clearAllMocks();
   });
 
   afterEach(() => {
     consoleLogSpy.mockRestore();
-    jest.clearAllMocks();
   });
 
   // ========================================
@@ -50,10 +39,6 @@ describe('KeepAlive Service', () => {
     expect(typeof keepAlive).toBe('function');
   });
 
-  // ========================================
-  // TESTS FONCTIONNELS (Sans mock complet d\'Express)
-  // ========================================
-  
   test('devrait être définit et importable', () => {
     expect(keepAlive).toBeDefined();
     expect(keepAlive).toBeInstanceOf(Function);
@@ -63,6 +48,53 @@ describe('KeepAlive Service', () => {
     expect(keepAlive.name).toBe('keepAlive');
   });
 
+  test('devrait exporter app séparément', () => {
+    expect(keepAlive.app).toBeDefined();
+    expect(keepAlive.app).toBe(mockApp);
+  });
+
+  // ========================================
+  // TESTS FONCTIONNELS
+  // ========================================
+
+  test('devrait démarrer le serveur avec keepAlive()', () => {
+    const originalEnv = process.env.PORT;
+    delete process.env.PORT;
+
+    keepAlive();
+
+    expect(mockApp.listen).toHaveBeenCalledWith(
+      8080,
+      '0.0.0.0',
+      expect.any(Function)
+    );
+
+    process.env.PORT = originalEnv;
+  });
+
+  test('devrait utiliser PORT depuis process.env', () => {
+    process.env.PORT = '3000';
+
+    keepAlive();
+
+    expect(mockApp.listen).toHaveBeenCalledWith(
+      '3000',
+      '0.0.0.0',
+      expect.any(Function)
+    );
+
+    delete process.env.PORT;
+  });
+
+  test('devrait afficher un message console au démarrage', () => {
+    delete process.env.PORT;
+    
+    keepAlive();
+
+    expect(consoleLogSpy).toHaveBeenCalledWith(
+      expect.stringContaining('Serveur web actif')
+    );
+  });
 
 });
 

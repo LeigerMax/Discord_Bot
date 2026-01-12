@@ -83,14 +83,6 @@ module.exports = {
             
             // Vérifie si le membre est toujours dans un vocal
             if (!currentMember.voice.channel) {
-              console.log(`${mentionedUser.user.username} a quitté le vocal`);
-              
-              const leftEmbed = new EmbedBuilder()
-                .setColor(0xFFFF00)
-                .setDescription(`⚠️ **${mentionedUser.user.username}** a quitté le vocal\n🔒 Le mute sera réappliqué s'il revient!`)
-                .setFooter({ text: `Temps restant: ${Math.ceil((endTime - Date.now()) / 60000)} min` });
-              
-              await message.channel.send({ embeds: [leftEmbed] });
               return;
             }
 
@@ -186,4 +178,7 @@ module.exports = {
       message.reply('❌ Une erreur est survenue lors du traitement de ta commande.');
     }
   },
+
+  // Export de la Map pour la commande override
+  mutedMembers
 };
