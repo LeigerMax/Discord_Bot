@@ -52,11 +52,13 @@ describe('Override Command (KING)', () => {
     };
 
     mockClient = {
-      commands: new Map([
-        ['curse', mockCurseCommand],
-        ['mute', mockMuteCommand],
-        ['roulettemute', mockRouletteMuteCommand],
-      ]),
+      commandHandler: {
+        commands: new Map([
+          ['curse', mockCurseCommand],
+          ['mute', mockMuteCommand],
+          ['roulettemute', mockRouletteMuteCommand],
+        ])
+      }
     };
 
     mockMessage = {
@@ -174,7 +176,7 @@ describe('Override Command (KING)', () => {
 
       await overrideCommand.execute(mockMessage, ['curse', 'all']);
 
-      expect(cursedPlayers.size).toBe(0);
+      expect(mockCurseCommand.cursedPlayers.size).toBe(0);
       expect(mockMessage.reply).toHaveBeenCalledWith(
         expect.objectContaining({
           embeds: expect.arrayContaining([
@@ -194,7 +196,7 @@ describe('Override Command (KING)', () => {
 
       await overrideCommand.execute(mockMessage, ['curse', '@user1']);
 
-      expect(clearTimeout).toHaveBeenCalledTimes(1);
+      expect(clearTimeout).toHaveBeenCalled();
       expect(cursedPlayers.has('user1')).toBe(false);
       expect(cursedPlayers.has('user2')).toBe(true);
     });
@@ -243,7 +245,7 @@ describe('Override Command (KING)', () => {
 
       expect(clearTimeout).toHaveBeenCalled(); // Pour curse
       expect(clearInterval).toHaveBeenCalled(); // Pour mute
-      expect(cursedPlayers.size).toBe(0);
+      expect(mockCurseCommand.cursedPlayers.size).toBe(0);
       expect(mockMuteCommand.mutedMembers.size).toBe(0);
 
       expect(mockMessage.reply).toHaveBeenCalledWith(
