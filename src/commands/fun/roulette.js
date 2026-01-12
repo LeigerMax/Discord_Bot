@@ -40,7 +40,7 @@ module.exports = {
       const embed = new EmbedBuilder()
         .setColor(0xFF0000)
         .setTitle('🎲 Roulette Russe')
-        .setDescription(`**${members.size}** joueurs dans le vocal...\n\n🔫 **${randomMember.user.username}** a été sélectionné!`)
+        .setDescription(`**${members.size}** joueurs dans le vocal...\n\n🔫 **${randomMember.user.username}** a été sélectionné!\n👤 **Lancé par**: ${message.author.username}`)
         .setFooter({ text: 'Déconnexion en cours...' })
         .setTimestamp();
 

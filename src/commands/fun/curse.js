@@ -152,6 +152,7 @@ module.exports = {
   name: 'curse',
   description: 'Lance une malédiction sur un joueur',
   usage: '!curse [@joueur] [durée] OU !curse hidden [@joueur] [durée] [TYPE] OU !curse types',
+  cursedPlayers,
   
   async execute(message, args) {
     try {
@@ -223,7 +224,7 @@ module.exports = {
           return message.reply('❌ Seul un administrateur peut lever les malédictions!');
         }
         cursedPlayers.clear();
-        return message.reply('✨ Toutes les malédictions ont été levées!');
+        return message.reply(`✨ Toutes les malédictions ont été levées par **${message.author.username}**!`);
       }
 
       // Commande pour voir les joueurs maudits
@@ -516,7 +517,8 @@ module.exports = {
           .setTitle('✨ Malédiction Levée')
           .setDescription(
             `🎉 **${targetMember.user.username}** est libéré de la malédiction!\n\n` +
-            `La ${selectedCurse.name} a pris fin.`
+            `La ${selectedCurse.name} a pris fin.\n` +
+            `👤 **Maudit par**: ${message.author.username}`
           )
           .setFooter({ text: 'Tu es libre!' })
           .setTimestamp();

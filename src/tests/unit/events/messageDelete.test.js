@@ -282,7 +282,7 @@ describe('MessageDelete Event', () => {
   // ========================================
 
   describe('Logging dans un salon', () => {
-    test('devrait envoyer un log si LOG_CHANNEL_ID est configuré', async () => {
+    test('ne devrait PAS envoyer de log automatiquement (fonctionnalité désactivée)', async () => {
       const originalEnv = process.env.LOG_CHANNEL_ID;
       process.env.LOG_CHANNEL_ID = 'log123';
 
@@ -297,17 +297,8 @@ describe('MessageDelete Event', () => {
       const eventCallback = mockClient.on.mock.calls.find(call => call[0] === 'messageDelete')[1];
       await eventCallback(mockMessage);
 
-      expect(mockLogChannel.send).toHaveBeenCalledWith(
-        expect.objectContaining({
-          embeds: expect.arrayContaining([
-            expect.objectContaining({
-              data: expect.objectContaining({
-                title: '🗑️ Message Supprimé',
-              }),
-            }),
-          ]),
-        })
-      );
+      // Le bot ne doit plus envoyer de logs automatiques
+      expect(mockLogChannel.send).not.toHaveBeenCalled();
 
       process.env.LOG_CHANNEL_ID = originalEnv;
     });

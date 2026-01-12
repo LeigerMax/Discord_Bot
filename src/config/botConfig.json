@@ -1,0 +1,21 @@
+{
+  "presence": {
+    "status": "online",
+    "activities": [
+      {
+        "name": "Maxou le meilleur développeur",
+        "type": "PLAYING"
+      }
+    ]
+  },
+  "about": {
+    "description": "Bot Discord multifonction avec commandes fun, admin et musique !",
+    "features": [
+      "Commandes de modération",
+      "Commandes fun et divertissement",
+      "Lecture de musique depuis YouTube",
+      "Système anti-raid",
+      "Réponses automatiques"
+    ]
+  }
+}

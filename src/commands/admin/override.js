@@ -50,10 +50,15 @@ module.exports = {
         rouletteMutesRemoved: 0
       };
 
-      // Récupère les modules
-      const curseCommand = message.client.commands?.get('curse');
-      const muteCommand = message.client.commands?.get('mute');
-      const roulettemuteCommand = message.client.commands?.get('roulettemute');
+      // Récupère les modules via commandHandler
+      const commands = message.client.commandHandler?.commands;
+      if (!commands) {
+        return message.reply('❌ Erreur: Impossible d\'accéder aux commandes.');
+      }
+      
+      const curseCommand = commands.get('curse');
+      const muteCommand = commands.get('mute');
+      const roulettemuteCommand = commands.get('roulettemute');
 
       // Override CURSE
       if (action === 'curse' || action === 'all') {
