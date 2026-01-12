@@ -16,7 +16,6 @@ A feature-rich Discord bot with fun commands, admin tools, and an advanced curse
   - [Admin Commands](#admin-commands)
 - [Installation](#installation)
 - [Configuration](#configuration)
-- [Usage](#usage)
 - [Curse System](#curse-system)
 - [License](#license)
 
