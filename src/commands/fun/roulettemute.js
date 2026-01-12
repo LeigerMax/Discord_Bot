@@ -12,6 +12,7 @@ const mutedMembers = new Map();
 module.exports = {
   name: 'roulettemute',
   description: 'Sélectionne un joueur aléatoire du vocal et le mute 5 minutes (mute forcé)',
+  mutedMembers,
   usage: '!roulettemute',
   
   async execute(message, args) {
@@ -48,7 +49,7 @@ module.exports = {
       const embed = new EmbedBuilder()
         .setColor(0xFF6600)
         .setTitle('🔇 Roulette Russe MUTE')
-        .setDescription(`**${members.size}** joueurs dans le vocal...\n\n🎯 **${randomMember.user.username}** a été sélectionné!`)
+        .setDescription(`**${members.size}** joueurs dans le vocal...\n\n🎯 **${randomMember.user.username}** a été sélectionné!\n👤 **Lancé par**: ${message.author.username}`)
         .setFooter({ text: 'Mute forcé pendant 5 minutes...' })
         .setTimestamp();
 
@@ -147,7 +148,8 @@ module.exports = {
           .setColor(0xFF0000)
           .setTitle('🔇 Mute Forcé Activé')
           .setDescription(
-            `✅ **${randomMember.user.username}** a été muté!\n\n` +
+            `✅ **${randomMember.user.username}** a été muté!\n` +
+            `👤 **Par**: ${message.author.username}\n\n` +
             `⏱️ **Durée**: 5 minutes\n` +
             `🔓 **Fin**: <t:${Math.floor(endTime / 1000)}:R>\n` +
             `⚠️ **Mute forcé**: Impossible de se démute`

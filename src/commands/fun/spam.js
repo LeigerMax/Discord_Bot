@@ -44,7 +44,7 @@ module.exports = {
       const confirmEmbed = new EmbedBuilder()
         .setColor(0xFF6600)
         .setTitle('⚠️ Spam en cours!')
-        .setDescription(`🎯 **Cible**: ${mentionedUser.username}\n⏱️ **Durée**: ${durationInSeconds} secondes\n💬 **Spam canal**: Toutes les 2s\n📩 **GIF DM**: Toutes les 10s\n🗑️ **Nettoyage**: Automatique après ${durationInSeconds}s`)
+        .setDescription(`🎯 **Cible**: ${mentionedUser.username}\n👤 **Lancé par**: ${message.author.username}\n⏱️ **Durée**: ${durationInSeconds} secondes\n💬 **Spam canal**: Toutes les 2s\n📩 **GIF DM**: Toutes les 10s\n🗑️ **Nettoyage**: Automatique après ${durationInSeconds}s`)
         .setFooter({ text: 'Attention, ça va chauffer! 🔥' });
 
       await message.reply({ embeds: [confirmEmbed] });
@@ -128,7 +128,7 @@ module.exports = {
           const endEmbed = new EmbedBuilder()
             .setColor(0x00FF00)
             .setDescription(`✅ Spam terminé!\n🗑️ ${deletedCount} messages supprimés`)
-            .setFooter({ text: `Victime: ${mentionedUser.username}` });
+            .setFooter({ text: `Victime: ${mentionedUser.username} • Par: ${message.author.username}` });
 
           const finalMsg = await message.channel.send({ embeds: [endEmbed] });
           

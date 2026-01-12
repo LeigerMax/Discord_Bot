@@ -12,6 +12,7 @@ const mutedMembers = new Map();
 module.exports = {
   name: 'mute',
   description: 'Mute un joueur dans le vocal pendant une durée définie (mute forcé)',
+  mutedMembers,
   usage: '!mute @utilisateur <durée_en_minutes>',
   
   async execute(message, args) {

@@ -45,11 +45,11 @@ module.exports = {
         return message.reply(`❌ Je ne peux pas timeout ${randomMember.user.username} (permissions insuffisantes)`);
       }
 
-      // Crée un embed pour annoncer le résultat
+      // Crète un embed pour annoncer le résultat
       const embed = new EmbedBuilder()
         .setColor(0xFF0000)
         .setTitle('💀 Roulette Russe HARD')
-        .setDescription(`**${members.size}** joueurs dans le vocal...\n\n🔫 **${randomMember.user.username}** a été sélectionné!\n\n⚠️ **Exclusion temporaire en cours...**`)
+        .setDescription(`**${members.size}** joueurs dans le vocal...\n\n🔫 **${randomMember.user.username}** a été sélectionné!\n👤 **Lancé par**: ${message.author.username}\n\n⚠️ **Exclusion temporaire en cours...**`)
         .setFooter({ text: 'Mode HARD: 5 minutes de timeout' })
         .setTimestamp();
 

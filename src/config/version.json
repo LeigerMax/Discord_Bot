@@ -1,7 +1,19 @@
 {
-  "current": "0.1.1",
+  "current": "0.1.2",
   "releaseDate": "12 Janvier 2026",
   "changelog": {
+     "v0.1.2": {
+      "date": "12 Janvier 2026",
+      "features": [
+        "Ajout du status Discord personnalisé pour le bot",
+        "Ajout de la section 'À propos' dans la configuration du bot",
+        "Identification de l'utilisateur dans les messages de malédictions, spam, roulettes et mutes forcés"  
+      ],
+      "fixes": [
+        "Le bot n'affiche plus le message 'Message Supprimé' lorsqu'un message est supprimé",
+        "Correction de la commande override pour qu'elle fonctionne correctement"
+      ]
+    },
     "v0.1.1": {
       "date": "12 Janvier 2026",
       "features": [
@@ -15,7 +27,9 @@
         "Ajout de la commande `!clear <nombre> [@utilisateur]` pour nettoyer les messages dans un canal",
         "Ajout de la commande `!showdeleted [nombre] [@utilisateur]` pour afficher les messages supprimés récemment",
         "Ajout d'un Système anti-raid, avec la commande `!antiraid <on|off|config|status>`",
-        "Ajout de la commande `!override <type> <cible>` pour annuler toutes les sanctions: curse, mutes, etc. (KING Only)"
+        "Ajout de la commande `!override <type> <cible>` pour annuler toutes les sanctions: curse, mutes, etc. (KING Only)",
+        "Ajout de la configuration du status Discord personnalisé pour le bot",
+        "Ajout de la configuration 'À propos' du bot avec description et fonctionnalités"
       ],
       "fixes": [
         "Correction du spam 'Le mute sera réappliqué s'il revient!'"
