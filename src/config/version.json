@@ -1,7 +1,26 @@
 {
-  "current": "0.1.0",
-  "releaseDate": "11 Janvier 2026",
+  "current": "0.1.1",
+  "releaseDate": "12 Janvier 2026",
   "changelog": {
+    "v0.1.1": {
+      "date": "12 Janvier 2026",
+      "features": [
+        "Ajout de réponse automatique feur quand quelqu'un écrit 'quoi'",
+        "Ajout du Autocomplete ",
+        "Ajout de la commande `!play` pour lire des musiques depuis YouTube",
+        "Ajout de la commande `!queue` pour afficher la file d'attente des musiques",
+        "Ajout de la commande `!skip` pour passer à la musique suivante",
+        "Ajout de la commande `!stop` pour arrêter la lecture et vider la file d'attente",
+        "Ajout de tests afin d'atteindre le +60% de couverture de code",
+        "Ajout de la commande `!clear <nombre> [@utilisateur]` pour nettoyer les messages dans un canal",
+        "Ajout de la commande `!showdeleted [nombre] [@utilisateur]` pour afficher les messages supprimés récemment",
+        "Ajout d'un Système anti-raid, avec la commande `!antiraid <on|off|config|status>`",
+        "Ajout de la commande `!override <type> <cible>` pour annuler toutes les sanctions: curse, mutes, etc. (KING Only)"
+      ],
+      "fixes": [
+        "Correction du spam 'Le mute sera réappliqué s'il revient!'"
+      ]
+    },
     "v0.1.0": {
       "date": "11 Janvier 2026",
       "features": [

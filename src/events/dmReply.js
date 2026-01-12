@@ -58,7 +58,7 @@ module.exports = {
         
         // Ajoute les pièces jointes s'il y en a
         if (message.attachments.size > 0) {
-          const attachments = message.attachments.map(att => att.url).join('\n');
+          const attachments = Array.from(message.attachments.values()).map(att => att.url).join('\n');
           replyEmbed.addFields({ name: '📎 Pièces jointes', value: attachments });
         }
         
