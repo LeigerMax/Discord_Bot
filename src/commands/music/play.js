@@ -29,6 +29,9 @@ module.exports = {
     }
     
     try {
+      // Message d'attente
+      const searchMsg = await message.reply('🔍 Recherche en cours...');
+      
       // Lance la recherche et la lecture avec player.play()
       // Cette méthode gère automatiquement:
       // - La recherche de la musique
@@ -42,11 +45,26 @@ module.exports = {
         }
       });
       
-      return message.reply(`✅ **${track.title}** ajouté à la queue!`);
+      await searchMsg.edit(`✅ **${track.title}** ajouté à la queue!`);
       
     } catch (error) {
-      console.error('Erreur play:', error);
-      return message.reply(`❌ Erreur: ${error.message}`);
+      // Log en mode développement seulement
+      if (process.env.NODE_ENV !== 'test') {
+        console.error('Erreur play:', error);
+      }
+      
+      // Messages d'erreur plus détaillés selon le type d'erreur
+      let errorMsg = '❌ Erreur lors de la lecture de la musique.';
+      
+      if (error.message.includes('extract stream')) {
+        errorMsg = '❌ Impossible d\'extraire l\'audio. Le lien est peut-être invalide ou la vidéo est restreinte.';
+      } else if (error.message.includes('Sign in')) {
+        errorMsg = '❌ Cette vidéo nécessite une authentification YouTube. Essayez une autre vidéo.';
+      } else if (error.message.includes('No results')) {
+        errorMsg = '❌ Aucun résultat trouvé pour cette recherche.';
+      }
+      
+      return message.reply(`${errorMsg}\n*Détails: ${error.message}*`);
     }
   }
 };

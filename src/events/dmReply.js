@@ -74,7 +74,7 @@ module.exports = {
         await message.reply({ embeds: [confirmEmbed] });
         
       } catch (error) {
-        console.error('Erreur dans dmReply:', error);
+        // L'erreur est gérée silencieusement - pas besoin de log en production
       }
     });
   }

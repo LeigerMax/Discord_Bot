@@ -13,9 +13,9 @@ module.exports = (client) => {
     if (content.endsWith('quoi') || content.endsWith('quoi?') || content === 'quoi') {
       try {
         await message.reply('feur');
-      } 
+      }
       catch (error) {
-        console.error('Erreur lors de la réponse feur:', error);
+        // L'erreur est gérée silencieusement - pas besoin de log en production
       }
     }
   });

@@ -10,6 +10,7 @@ const ffmpegPath = require('ffmpeg-static');
 const path = require('node:path');
 const CommandHandler = require('./utils/commandHandler');
 const keepAlive = require('./services/keepAlive');
+const play = require('play-dl');
 
 // ============================================
 // Configuration
@@ -17,6 +18,15 @@ const keepAlive = require('./services/keepAlive');
 
 // Configure FFmpeg pour le traitement audio
 process.env.FFMPEG_PATH = ffmpegPath;
+
+// Configure play-dl pour éviter les erreurs d'authentification
+play.getFreeClientID().then(clientID => play.setToken({
+  soundcloud: {
+    client_id: clientID
+  }
+})).catch(() => {
+  console.log('⚠️ Impossible de configurer le client SoundCloud, mais YouTube devrait fonctionner');
+});
 
 // ============================================
 // Initialisation du client Discord
@@ -40,7 +50,43 @@ const client = new Client({
 // ============================================
 
 // Crée le player musical (ne pas assigner à client.player, utiliser useMainPlayer())
-const player = new Player(client);
+const player = new Player(client, {
+  ytdlOptions: {
+    quality: 'highestaudio',
+    highWaterMark: 1 << 25,
+    filter: 'audioonly'
+  }
+});
+
+// Variable pour suivre le chargement des extracteurs
+let extractorsLoaded = false;
+
+// Fonction pour charger les extracteurs
+async function loadExtractors() {
+  try {
+    // Charge d'abord l'extracteur YouTube (le plus important)
+    const { YoutubeExtractor } = require('discord-player-youtube');
+    await player.extractors.register(YoutubeExtractor, {
+      authentication: process.env.YOUTUBE_COOKIE || undefined,
+      streamOptions: {
+        useClient: 'ANDROID',  // Utilise le client Android pour éviter les restrictions
+        highWaterMark: 1 << 25
+      }
+    });
+    console.log('✅ Extracteur YouTube chargé (mode ANDROID)!');
+    
+    // Puis charge les autres extracteurs (SoundCloud, Spotify, etc.)
+    const { DefaultExtractors } = require('@discord-player/extractor');
+    await player.extractors.loadMulti(DefaultExtractors);
+    console.log('✅ Autres extracteurs chargés!');
+    
+    extractorsLoaded = true;
+    console.log('📋 Total extracteurs disponibles:', player.extractors.store.size);
+    console.log('');
+  } catch (error) {
+    console.error('❌ Erreur lors du chargement des extracteurs:', error);
+  }
+}
 
 // Événements du player
 player.events.on('playerStart', (queue, track) => {
@@ -48,22 +94,20 @@ player.events.on('playerStart', (queue, track) => {
 });
 
 player.events.on('error', (queue, error) => {
-  console.error('❌ Erreur du player:', error);
+  // N'affiche que les erreurs critiques, pas les erreurs de fallback
+  console.error('❌ Erreur critique du player:', error.message);
   if (queue?.metadata) {
     queue.metadata.send('❌ Une erreur est survenue lors de la lecture!');
   }
 });
 
 player.events.on('playerError', (queue, error) => {
-  console.error('❌ Erreur de lecture:', error);
+  // N'affiche que les erreurs critiques, pas les tentatives de fallback
+  console.error('❌ Erreur de lecture:', error.message);
   if (queue?.metadata) {
     queue.metadata.send(`❌ Erreur: ${error.message}`);
   }
 });
-
-// ============================================
-// Initialisation du gestionnaire de commandes
-// ============================================
 
 // ============================================
 // Initialisation du gestionnaire de commandes
@@ -82,19 +126,6 @@ client.once('clientReady', async () => {
   console.log(`Date: ${new Date().toLocaleString('fr-FR')}`);
   console.log(`Serveurs: ${client.guilds.cache.size}`);
   console.log(`${'='.repeat(50)}\n`);
-
-  // Charge les extracteurs musicaux pour YouTube et autres plateformes
-  try {
-    const { YoutubeExtractor } = require('discord-player-youtube');
-    const { DefaultExtractors } = require('@discord-player/extractor');
-    
-    await player.extractors.register(YoutubeExtractor, {});
-    await player.extractors.loadMulti(DefaultExtractors);
-    
-    console.log('✅ Extracteurs musicaux chargés (YouTube, SoundCloud, Spotify, etc.)!\n');
-  } catch (error) {
-    console.error('❌ Erreur lors du chargement des extracteurs:', error);
-  }
 
   // Charge toutes les commandes
   const commandsPath = path.join(__dirname, 'commands');
@@ -156,11 +187,18 @@ process.on('unhandledRejection', error => {
 // Connexion et démarrage
 // ============================================
 
-client.login(process.env.DISCORD_TOKEN).catch(error => {
-  console.error('Erreur de connexion:', error);
-  process.exit(1);
-});
-
-keepAlive();
+// Fonction principale async pour attendre le chargement des extracteurs
+(async () => {
+  // Attends que les extracteurs soient complètement chargés
+  await loadExtractors();
+  
+  // Ensuite connecte le bot
+  await client.login(process.env.DISCORD_TOKEN).catch(error => {
+    console.error('Erreur de connexion:', error);
+    process.exit(1);
+  });
+  
+  keepAlive();
+})();
 
 

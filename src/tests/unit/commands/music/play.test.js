@@ -23,6 +23,10 @@ describe('Commande: play', () => {
     };
 
     // Mock du message
+    const mockReplyMessage = {
+      edit: jest.fn().mockResolvedValue({})
+    };
+    
     mockMessage = {
       member: {
         voice: {
@@ -36,7 +40,7 @@ describe('Commande: play', () => {
         id: 'text-channel-123',
         send: jest.fn()
       },
-      reply: jest.fn()
+      reply: jest.fn().mockResolvedValue(mockReplyMessage)
     };
 
     // Mock du player discord-player
@@ -114,7 +118,10 @@ describe('Commande: play', () => {
         }
       );
 
-      expect(mockMessage.reply).toHaveBeenCalledWith(
+      expect(mockMessage.reply).toHaveBeenCalledWith('🔍 Recherche en cours...');
+      
+      const replyMessage = await mockMessage.reply.mock.results[0].value;
+      expect(replyMessage.edit).toHaveBeenCalledWith(
         `✅ **${mockTrack.title}** ajouté à la queue!`
       );
     });
@@ -135,7 +142,10 @@ describe('Commande: play', () => {
         expect.any(Object)
       );
 
-      expect(mockMessage.reply).toHaveBeenCalledWith(
+      expect(mockMessage.reply).toHaveBeenCalledWith('🔍 Recherche en cours...');
+      
+      const replyMessage = await mockMessage.reply.mock.results[0].value;
+      expect(replyMessage.edit).toHaveBeenCalledWith(
         `✅ **${mockTrack.title}** ajouté à la queue!`
       );
     });
@@ -146,7 +156,9 @@ describe('Commande: play', () => {
 
       await playCommand.execute(mockMessage, ['test', 'song']);
 
-      expect(mockMessage.reply).toHaveBeenCalledWith(`❌ Erreur: ${errorMessage}`);
+      expect(mockMessage.reply).toHaveBeenCalledWith(
+        expect.stringContaining('❌ Erreur lors de la lecture de la musique')
+      );
     });
 
     test('doit concaténer correctement les arguments', async () => {
