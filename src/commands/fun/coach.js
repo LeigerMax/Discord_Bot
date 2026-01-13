@@ -1,7 +1,9 @@
 /**
  * @file Coach Command
- * @description Fournit un conseil de coach gaming, sérieux ou troll.
- * @version 1.0.0
+ * @description Fournit un conseil de coach gaming aléatoire, sérieux ou troll
+ * @module commands/fun/coach
+ * @category Fun
+ * @requires discord.js
  */
 const { EmbedBuilder } = require('discord.js');
 
@@ -10,7 +12,7 @@ module.exports = {
   description: 'Reçois un conseil de coach gaming',
   usage: '!coach',
   
-  async execute(message, args) {
+  async execute(message, _args) {
     try {
       // Liste de conseils variés (sérieux et troll)
       const advices = [

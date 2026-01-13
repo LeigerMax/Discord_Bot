@@ -1,8 +1,11 @@
-
 /**
- * Commande help pour afficher toutes les commandes disponibles avec menu de sélection
- * @param {Message} message - Le message Discord
- * @param {Array} args - Les arguments de la commande
+ * @file Help Command
+ * @description Affiche toutes les commandes disponibles organisées par catégorie avec menu de sélection interactif
+ * @module commands/general/help
+ * @category General
+ * @requires discord.js
+ * @requires node:fs
+ * @requires node:path
  */
 
 const { EmbedBuilder, ActionRowBuilder, StringSelectMenuBuilder, StringSelectMenuOptionBuilder } = require('discord.js');
@@ -14,7 +17,7 @@ module.exports = {
   description: 'Affiche toutes les commandes disponibles avec menu de sélection',
   usage: '!help',
   
-  async execute(message, args) {
+  async execute(message, _args) {
     try {
       const commandsPath = path.join(__dirname, '..');
       const categories = fs.readdirSync(commandsPath).filter(item => {

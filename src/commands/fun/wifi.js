@@ -1,7 +1,9 @@
 /**
  * @file Wifi Command
- * @description Vérifie la qualité de ta connexion
- * @version 1.0.0
+ * @description Vérifie la qualité de la connexion internet d'un utilisateur avec résultats aléatoires pondérés
+ * @module commands/fun/wifi
+ * @category Fun
+ * @requires discord.js
  */
 
 const { EmbedBuilder } = require('discord.js');
@@ -11,7 +13,7 @@ module.exports = {
   description: 'Vérifie la qualité de ta connexion',
   usage: '!wifi [@utilisateur]',
   
-  async execute(message, args) {
+  async execute(message, _args) {
     try {
       // Vérifie si un utilisateur est mentionné, sinon utilise l'auteur
       const targetUser = message.mentions.users.first() || message.author;

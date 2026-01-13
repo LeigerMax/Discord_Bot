@@ -1,7 +1,9 @@
 /**
- * Commande pour supprimer des messages en masse
- * @param {Message} message - Le message Discord
- * @param {Array} args - Les arguments de la commande
+ * @file Clear Command
+ * @description Supprime des messages en masse dans un salon (jusqu'à 100 messages)
+ * @module commands/admin/clear
+ * @category Admin
+ * @requires discord.js
  */
 
 module.exports = {

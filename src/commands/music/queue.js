@@ -1,3 +1,11 @@
+/**
+ * @file Queue Command
+ * @description Affiche la file d'attente des musiques en cours de lecture
+ * @module commands/music/queue
+ * @category Music
+ * @requires discord-player
+ */
+
 const { useMainPlayer } = require('discord-player');
 
 module.exports = {
@@ -6,7 +14,7 @@ module.exports = {
   description: 'Affiche la file d\'attente des musiques',
   usage: '!queue',
   
-  async execute(message, args) {
+  async execute(message, _args) {
     const player = useMainPlayer();
     const queue = player.queues.get(message.guild.id);
 

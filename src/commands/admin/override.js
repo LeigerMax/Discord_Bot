@@ -1,8 +1,9 @@
 /**
- * Commande KING pour forcer l'arrêt de malédictions, mutes, etc.
- * Réservée uniquement au KING_ID
- * @param {Message} message - Le message Discord
- * @param {Array} args - Les arguments de la commande
+ * @file Override Command
+ * @description Commande KING pour forcer l'arrêt de toutes les malédictions, mutes et sanctions actives
+ * @module commands/admin/override
+ * @category Admin
+ * @requires discord.js
  */
 
 const { EmbedBuilder } = require('discord.js');
@@ -67,7 +68,7 @@ module.exports = {
           
           if (affectAll) {
             // Nettoie tous les timeouts avant de clear
-            for (const [userId, curseData] of cursedPlayers) {
+            for (const [_userId, curseData] of cursedPlayers) {
               if (curseData.timeout) clearTimeout(curseData.timeout);
             }
             results.cursesRemoved = cursedPlayers.size;

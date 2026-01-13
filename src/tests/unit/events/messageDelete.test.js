@@ -218,7 +218,6 @@ describe('MessageDelete Event', () => {
 
   describe('Récupération des messages (getDeletedMessages)', () => {
     beforeEach(async () => {
-      const handler = mockClient.eventHandlers.get('messageDelete');
       const eventCallback = mockClient.on.mock.calls.find(call => call[0] === 'messageDelete')[1];
 
       // Stocke plusieurs messages de différents utilisateurs

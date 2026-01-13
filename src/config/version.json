@@ -1,7 +1,19 @@
 {
-  "current": "0.1.3",
-  "releaseDate": "12 Janvier 2026",
+  "current": "0.1.4",
+  "releaseDate": "13 Janvier 2026",
   "changelog": {
+      "v0.1.4": {
+      "date": "13 Janvier 2026",
+      "features": [
+        "Ajout de nouveaux tests unitaires pour améliorer la couverture de code",
+        "Suppression des 7 dépendances inutilisées",
+        "Correction SonarLint et amélioration de la qualité du code",
+        "Ajouter garbage collection pour les Maps"
+      ],
+      "fixes": [
+        "Correction de l'erreur lors du chargement de l'extracteur YouTube"
+      ]
+    },
     "v0.1.3": {
       "date": "12 Janvier 2026",
       "features": [

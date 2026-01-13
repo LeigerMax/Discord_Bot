@@ -181,7 +181,7 @@ describe('Commande: version', () => {
       const embed = mockMessage.reply.mock.calls[0][0].embeds[0];
       const fields = embed.data.fields || [];
       
-      const hasEmoji = fields.some(f => /[✨🐛📜🔗]/.test(f.name));
+      const hasEmoji = fields.some(f => /[✨🐛📜🔗]/u.test(f.name));
       expect(hasEmoji || fields.length === 0).toBe(true);
     });
   });

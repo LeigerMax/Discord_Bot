@@ -1,7 +1,9 @@
 /**
  * @file RouletteMute Command
- * @description Sélectionne un joueur aléatoire du vocal et le mute 5 minutes (mute forcé)
- * @version 1.0.0
+ * @description Sélectionne un joueur aléatoire du salon vocal et le mute 5 minutes avec maintien forcé
+ * @module commands/fun/roulettemute
+ * @category Fun
+ * @requires discord.js
  */
 
 const { EmbedBuilder } = require('discord.js');
@@ -9,13 +11,24 @@ const { EmbedBuilder } = require('discord.js');
 // Map pour stocker les membres mutés et leurs timeouts
 const mutedMembers = new Map();
 
+// Garbage collector: nettoie les entrées expirées toutes les 5 minutes
+setInterval(() => {
+  const now = Date.now();
+  for (const [userId, muteData] of mutedMembers) {
+    if (muteData.expiresAt && now >= muteData.expiresAt) {
+      if (muteData.timeout) clearTimeout(muteData.timeout);
+      mutedMembers.delete(userId);
+    }
+  }
+}, 5 * 60 * 1000);
+
 module.exports = {
   name: 'roulettemute',
   description: 'Sélectionne un joueur aléatoire du vocal et le mute 5 minutes (mute forcé)',
   mutedMembers,
   usage: '!roulettemute',
   
-  async execute(message, args) {
+  async execute(message, _args) {
     try {
       // Vérifie que l'utilisateur est dans un salon vocal
       if (!message.member.voice.channel) {
@@ -141,7 +154,8 @@ module.exports = {
         mutedMembers.set(randomMember.id, {
           interval: checkInterval,
           endTime: endTime,
-          channelId: message.channel.id
+          channelId: message.channel.id,
+          expiresAt: endTime // Pour le GC
         });
 
         const successEmbed = new EmbedBuilder()
@@ -168,8 +182,5 @@ module.exports = {
       console.error('Erreur dans la commande roulettemute:', error);
       message.reply('❌ Une erreur est survenue lors du traitement de ta commande.');
     }
-  },
-
-  // Export de la Map pour la commande override
-  mutedMembers
+  }
 };

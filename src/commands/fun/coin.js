@@ -1,7 +1,9 @@
 /**
  * @file Coin Command
- * @description Lance une pièce - Pile ou Face
- * @version 1.0.0
+ * @description Lance une pièce de monnaie aléatoire - Pile ou Face
+ * @module commands/fun/coin
+ * @category Fun
+ * @requires discord.js
  */
 
 const { EmbedBuilder } = require('discord.js');
@@ -11,7 +13,7 @@ module.exports = {
   description: 'Lance une pièce - Pile ou Face',
   usage: '!coin',
   
-  async execute(message, args) {
+  async execute(message, _args) {
     try {
       // Résultats possibles
       const results = ['Pile', 'Face'];

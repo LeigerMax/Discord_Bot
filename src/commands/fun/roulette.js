@@ -1,7 +1,9 @@
 /**
  * @file Roulette Command
- * @description Sélectionne un joueur aléatoire du vocal et le déconnecte
- * @version 1.0.0
+ * @description Sélectionne un joueur aléatoire du salon vocal et le déconnecte (roulette russe)
+ * @module commands/fun/roulette
+ * @category Fun
+ * @requires discord.js
  */
 
 const { EmbedBuilder } = require('discord.js');
@@ -11,7 +13,7 @@ module.exports = {
   description: 'Sélectionne un joueur aléatoire du vocal et le déconnecte',
   usage: '!roulette',
   
-  async execute(message, args) {
+  async execute(message, _args) {
     try {
       // Vérifie que l'utilisateur est dans un salon vocal
       if (!message.member.voice.channel) {

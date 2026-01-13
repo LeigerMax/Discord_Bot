@@ -1,13 +1,25 @@
 /**
- * Commande pour envoyer un message automatiquement tous les X secondes
- * @param {Message} message - Le message Discord
- * @param {Array} args - Les arguments de la commande 
+ * @file Auto Command
+ * @description Envoie un message automatiquement à intervalle régulier dans un salon
+ * @module commands/admin/auto
+ * @category Admin
+ * @requires discord.js
  */
 
 const { EmbedBuilder } = require('discord.js');
 
 // Stockage des intervalles actifs
 const activeIntervals = new Map();
+
+// Garbage collector: nettoie les intervalles inactifs toutes les 10 minutes
+setInterval(() => {
+  for (const [key, intervalData] of activeIntervals) {
+    if (intervalData.lastActivity && Date.now() - intervalData.lastActivity > 24 * 60 * 60 * 1000) {
+      clearInterval(intervalData.interval);
+      activeIntervals.delete(key);
+    }
+  }
+}, 10 * 60 * 1000);
 
 module.exports = {
   name: 'auto',

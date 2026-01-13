@@ -1,7 +1,9 @@
 /**
  * @file Spam Command
- * @description Spam un joueur avec des mentions puis supprime tout
- * @version 1.0.0
+ * @description Spam un joueur avec des mentions dans le salon et DM puis supprime tout automatiquement
+ * @module commands/fun/spam
+ * @category Fun
+ * @requires discord.js
  */
 
 const { EmbedBuilder } = require('discord.js');
@@ -119,7 +121,7 @@ module.exports = {
               const msg = await message.channel.messages.fetch(msgId);
               await msg.delete();
               deletedCount++;
-            } catch (err) {
+            } catch (_err) {
               console.log('Message déjà supprimé ou introuvable:', msgId);
             }
           }

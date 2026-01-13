@@ -1,7 +1,9 @@
 /**
  * @file Rage Command
- * @description Calcule ton niveau de rage actuel
- * @version 1.0.0
+ * @description Calcule le niveau de rage actuel d'un utilisateur avec un pourcentage aléatoire
+ * @module commands/fun/rage
+ * @category Fun
+ * @requires discord.js
  */
 
 const { EmbedBuilder } = require('discord.js');
@@ -11,7 +13,7 @@ module.exports = {
   description: 'Calcule ton niveau de rage actuel',
   usage: '!rage [@utilisateur]',
   
-  async execute(message, args) {
+  async execute(message, _args) {
     try {
       // Vérifie si un utilisateur est mentionné, sinon utilise l'auteur
       const targetUser = message.mentions.users.first() || message.author;

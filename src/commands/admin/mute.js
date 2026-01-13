@@ -1,13 +1,26 @@
 /**
- * Commande pour muter un utilisateur dans un salon vocal pendant une durée définie (mute forcé)
- * @param {Message} message - Le message Discord
- * @param {Array} args - Les arguments de la commande 
+ * @file Mute Command
+ * @description Mute un utilisateur dans un salon vocal pendant une durée définie avec maintien forcé du mute
+ * @module commands/admin/mute
+ * @category Admin
+ * @requires discord.js
  */
 
 const { EmbedBuilder } = require('discord.js');
 
 // Map pour stocker les membres mutés et leurs timeouts
 const mutedMembers = new Map();
+
+// Garbage collector: nettoie les entrées expirées toutes les 5 minutes
+setInterval(() => {
+  const now = Date.now();
+  for (const [userId, muteData] of mutedMembers) {
+    if (muteData.expiresAt && now >= muteData.expiresAt) {
+      if (muteData.timeout) clearTimeout(muteData.timeout);
+      mutedMembers.delete(userId);
+    }
+  }
+}, 5 * 60 * 1000);
 
 module.exports = {
   name: 'mute',
@@ -151,7 +164,8 @@ module.exports = {
           interval: checkInterval,
           endTime: endTime,
           channelId: message.channel.id,
-          mutedBy: message.author.id
+          mutedBy: message.author.id,
+          expiresAt: endTime // Pour le GC
         });
 
         const successEmbed = new EmbedBuilder()
@@ -178,8 +192,5 @@ module.exports = {
       console.error('Erreur dans la commande mute:', error);
       message.reply('❌ Une erreur est survenue lors du traitement de ta commande.');
     }
-  },
-
-  // Export de la Map pour la commande override
-  mutedMembers
+  }
 };

@@ -1,7 +1,9 @@
 /**
  * @file DM Reply Event
- * @description Module pour gérer les réponses aux messages privés. Permet de transférer les réponses des utilisateurs vers l'expéditeur original
- * @version 1.0.0
+ * @description Gère les réponses aux messages privés en transférant automatiquement les réponses vers l'expéditeur original
+ * @module events/dmReply
+ * @listens messageCreate
+ * @requires discord.js
  */
 
 const { EmbedBuilder } = require('discord.js');
@@ -73,7 +75,7 @@ module.exports = {
         
         await message.reply({ embeds: [confirmEmbed] });
         
-      } catch (error) {
+      } catch (_error) {
         // L'erreur est gérée silencieusement - pas besoin de log en production
       }
     });

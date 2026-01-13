@@ -1,10 +1,10 @@
 /**
  * @file Presence Update Event
- * @description Événement presenceUpdate pour un user
- * @param {Client} client - Le client Discord
- * @version 1.0.0
+ * @description Surveille les changements de présence d'un utilisateur spécifique et annonce ses connexions/déconnexions
+ * @module events/presenceUpdate
+ * @listens presenceUpdate
+ * @requires discord.js
  */
-
 
 const { EmbedBuilder } = require('discord.js');
 const LOOSER_ID = process.env.LOOSER_ID;

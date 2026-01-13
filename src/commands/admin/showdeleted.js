@@ -1,7 +1,9 @@
 /**
- * Commande pour afficher les messages supprimés
- * @param {Message} message - Le message Discord
- * @param {Array} args - Les arguments de la commande
+ * @file ShowDeleted Command
+ * @description Affiche les derniers messages supprimés du serveur avec option de filtrage par utilisateur
+ * @module commands/admin/showdeleted
+ * @category Admin
+ * @requires discord.js
  */
 
 const { EmbedBuilder } = require('discord.js');

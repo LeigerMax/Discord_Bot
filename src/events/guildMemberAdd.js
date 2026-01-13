@@ -1,8 +1,9 @@
 /**
  * @file Guild Member Add Event
- * @description Événement guildMemberAdd pour accueillir un nouveau membre
- * @param {Client} client - Le client Discord
- * @version 1.0.0
+ * @description Accueille un nouveau membre avec un message aléatoire après vérification anti-raid
+ * @module events/guildMemberAdd
+ * @listens guildMemberAdd
+ * @requires discord.js
  */
 
 const { Events } = require('discord.js');

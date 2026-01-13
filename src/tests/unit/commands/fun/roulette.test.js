@@ -36,7 +36,6 @@ describe('Roulette Command - Tests complets', () => {
         if (callback(member)) filtered.set(key, member);
       }
       filtered.random = () => mockMember1;
-      filtered.size = filtered.size;
       return filtered;
     });
 

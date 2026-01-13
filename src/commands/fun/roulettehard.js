@@ -1,7 +1,9 @@
 /**
- * @file Roulette Hard Command
- * @description Sélectionne un joueur aléatoire du vocal et l'exclut 5 minutes
- * @version 1.0.0
+ * @file RouletteHard Command
+ * @description Sélectionne un joueur aléatoire du salon vocal et applique un timeout de 5 minutes
+ * @module commands/fun/roulettehard
+ * @category Fun
+ * @requires discord.js
  */
 
 const { EmbedBuilder } = require('discord.js');
@@ -11,7 +13,7 @@ module.exports = {
   description: 'Sélectionne un joueur aléatoire du vocal et l\'exclut 5 minutes',
   usage: '!roulettehard',
   
-  async execute(message, args) {
+  async execute(message, _args) {
     try {
       // Vérifie que l'utilisateur est dans un salon vocal
       if (!message.member.voice.channel) {

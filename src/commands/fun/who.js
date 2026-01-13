@@ -1,7 +1,9 @@
 /**
  * @file Who Command
- * @description Choisit une personne aléatoire connectée dans le salon vocal
- * @version 1.0.0
+ * @description Choisit une personne aléatoire parmi les membres connectés dans le salon vocal
+ * @module commands/fun/who
+ * @category Fun
+ * @requires discord.js
  */
 
 const { EmbedBuilder } = require('discord.js');
@@ -11,7 +13,7 @@ module.exports = {
   description: 'Choisit une personne aléatoire connectée dans le salon vocal',
   usage: '!who',
   
-  async execute(message, args) {
+  async execute(message, _args) {
     try {
       // Vérifie que l'utilisateur est dans un salon vocal
       if (!message.member.voice.channel) {

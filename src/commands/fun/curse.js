@@ -1,12 +1,25 @@
 /**
  * @file Curse Command
- * @description Lance une malédiction aléatoire sur un joueur
- * @version 1.0.0
+ * @description Lance une malédiction aléatoire sur un joueur avec divers effets (altération messages, mute vocal, etc.)
+ * @module commands/fun/curse
+ * @category Fun
+ * @requires discord.js
  */
 const { EmbedBuilder } = require('discord.js');
 
 // Map pour stocker les joueurs maudits
 const cursedPlayers = new Map();
+
+// Garbage collector: nettoie les entrées expirées toutes les 5 minutes
+setInterval(() => {
+  const now = Date.now();
+  for (const [userId, curseData] of cursedPlayers) {
+    if (curseData.expiresAt && now >= curseData.expiresAt) {
+      clearInterval(curseData.interval);
+      cursedPlayers.delete(userId);
+    }
+  }
+}, 5 * 60 * 1000); // 5 minutes
 
 // Types de malédictions disponibles
 const CURSES = {
@@ -451,7 +464,8 @@ module.exports = {
         endTime: endTime,
         interval: curseInterval,
         cursedBy: message.author.id,
-        channelId: message.channel.id
+        channelId: message.channel.id,
+        expiresAt: endTime // Timestamp d'expiration pour le GC
       });
 
       // Annonce de la malédiction
@@ -549,6 +563,5 @@ module.exports = {
   },
 
   // Exporte les types de malédictions pour le commandHandler
-  CURSES,
-  cursedPlayers
+  CURSES
 };

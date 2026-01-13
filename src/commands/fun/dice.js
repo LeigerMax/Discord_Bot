@@ -1,7 +1,9 @@
 /**
  * @file Dice Command
- * @description Lance un dé à 6 faces
- * @version 1.0.0
+ * @description Lance un dé à 6 faces et affiche le résultat
+ * @module commands/fun/dice
+ * @category Fun
+ * @requires discord.js
  */
 
 const { EmbedBuilder } = require('discord.js');
@@ -11,7 +13,7 @@ module.exports = {
   description: 'Lance un dé à 6 faces',
   usage: '!dice',
   
-  async execute(message, args) {
+  async execute(message, _args) {
     try {
       // Génère un nombre aléatoire entre 1 et 6
       const result = Math.floor(Math.random() * 6) + 1;

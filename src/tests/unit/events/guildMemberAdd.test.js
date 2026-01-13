@@ -117,7 +117,7 @@ describe('Event: guildMemberAdd', () => {
 
       try {
         await guildMemberAddEvent.execute(mockMember);
-      } catch (error) {
+      } catch (_error) {
         // L'erreur est capturée, test réussi
       }
 

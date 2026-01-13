@@ -1,6 +1,9 @@
 /**
- * Événement pour définir la présence (status) du bot
- * Configure le status Discord et l'activité affichée
+ * @file Bot Presence Event
+ * @description Configure la présence du bot (status et activité affichée) au démarrage
+ * @module events/botPresence
+ * @listens clientReady
+ * @requires discord.js
  */
 
 const { ActivityType } = require('discord.js');

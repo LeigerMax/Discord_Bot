@@ -1,5 +1,8 @@
 /**
- * Serveur web Express pour garder le bot actif
+ * @file Keep Alive Service
+ * @description Serveur web Express pour maintenir le bot actif en répondant aux requêtes HTTP
+ * @module services/keepAlive
+ * @requires express
  */
 
 const express = require('express');
@@ -7,7 +10,7 @@ const express = require('express');
 const app = express();
 
 app.get('/', (req, res) => {
-  res.send('Le bot est en ligne !');
+  res.send('Le bot est en ligne ! avec la version 0.1.4');
 });
 
 /**

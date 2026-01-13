@@ -1,7 +1,10 @@
 /**
  * @file Slap Command
- * @description Envoie un GIF de tape à un utilisateur (blague)
- * @version 1.0.0
+ * @description Envoie un GIF de tape à un utilisateur via Giphy API avec mode secret optionnel
+ * @module commands/fun/slap
+ * @category Fun
+ * @requires discord.js
+ * @requires node-fetch
  */
 
 const { EmbedBuilder } = require('discord.js');
@@ -87,7 +90,7 @@ module.exports = {
             .setImage(gifUrl)
             .setFooter({ text: 'Aperçu du GIF envoyé' });
           await message.author.send({ embeds: [confirmEmbed] });
-        } catch (err) {
+        } catch (_err) {
           await message.channel.send(`❌ Impossible d'envoyer un message privé à ${mentionedUser}.`);
         }
       } else {

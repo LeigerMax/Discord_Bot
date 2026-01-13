@@ -1,3 +1,11 @@
+/**
+ * @file Skip Command
+ * @description Passe à la musique suivante dans la file d'attente
+ * @module commands/music/skip
+ * @category Music
+ * @requires discord-player
+ */
+
 const { useMainPlayer } = require('discord-player');
 
 module.exports = {
@@ -6,7 +14,7 @@ module.exports = {
   description: 'Passe à la musique suivante',
   usage: '!skip',
   
-  async execute(message, args) {
+  async execute(message, _args) {
     const player = useMainPlayer();
     const queue = player.queues.get(message.guild.id);
 
