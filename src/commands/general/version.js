@@ -1,3 +1,11 @@
+/**
+ * @file Version Command
+ * @description Affiche la version actuelle du bot, les nouveautés et l'historique des versions
+ * @module commands/general/version
+ * @category General
+ * @requires discord.js
+ */
+
 const { EmbedBuilder } = require('discord.js');
 const versionData = require('../../config/version.json');
 

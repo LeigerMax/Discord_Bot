@@ -1,7 +1,10 @@
 /**
  * @file Hug Command
- * @description Envoie un GIF de câlin à un utilisateur
- * @version 1.0.0
+ * @description Envoie un GIF de câlin à un utilisateur via Giphy API avec mode secret optionnel
+ * @module commands/fun/hug
+ * @category Fun
+ * @requires discord.js
+ * @requires node-fetch
  */
 
 const { EmbedBuilder } = require('discord.js');
@@ -75,7 +78,7 @@ module.exports = {
             .setImage(gifUrl)
             .setFooter({ text: 'Aperçu du GIF envoyé' });
           await message.author.send({ embeds: [confirmEmbed] });
-        } catch (err) {
+        } catch (_err) {
           await message.channel.send(`❌ Impossible d'envoyer un message privé à ${mentionedUser}.`);
         }
       } else {

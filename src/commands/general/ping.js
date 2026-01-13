@@ -1,8 +1,9 @@
-
 /**
- * Commande ping pour afficher la latence du bot
- * @param {Message} message - Le message Discord
- * @param {Array} args - Les arguments de la commande
+ * @file Ping Command
+ * @description Affiche la latence du bot et la latence de l'API Discord avec indicateur de qualité
+ * @module commands/general/ping
+ * @category General
+ * @requires discord.js
  */
 
 const { EmbedBuilder } = require('discord.js');
@@ -12,7 +13,7 @@ module.exports = {
   description: 'Affiche la latence du bot',
   usage: '!ping',
   
-  async execute(message, args) {
+  async execute(message, _args) {
     try {
       // Calcule la latence du bot
       const sent = await message.reply('🏓 Calcul de la latence...');

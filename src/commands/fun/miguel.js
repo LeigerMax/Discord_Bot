@@ -1,7 +1,9 @@
 /**
  * @file Miguel Command
- * @description Vérifie si Miguel est en ligne
- * @version 1.0.0
+ * @description Vérifie le statut en ligne et vocal d'un utilisateur spécifique (Miguel)
+ * @module commands/fun/miguel
+ * @category Fun
+ * @requires discord.js
  */
 
 const { EmbedBuilder } = require('discord.js');
@@ -12,7 +14,7 @@ module.exports = {
   description: 'Vérifie si Miguel est en ligne',
   usage: '!miguel',
   
-  async execute(message, args) {
+  async execute(message, _args) {
     try {
       // Récupère le membre 
       const user = await message.guild.members.fetch(LOOSER_ID).catch(() => null);

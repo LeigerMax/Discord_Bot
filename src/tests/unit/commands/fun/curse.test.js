@@ -50,8 +50,6 @@ describe('Commande: curse', () => {
     jest.clearAllMocks();
     jest.clearAllTimers();
     // Nettoie la Map cursedPlayers entre les tests
-    const curseModule = require('../../../../commands/fun/curse.js');
-    // Si la Map est exportée, la vider ici
   });
 
   describe('Structure de la commande', () => {

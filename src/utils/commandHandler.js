@@ -1,9 +1,10 @@
 /**
- * Gestionnaire de commandes pour Discord Bot
- * Charge et exécute les commandes basées sur les messages reçus
- * @param {Client} client - Le client Discord
- * @param {string} prefix - Le préfixe des commandes
- **/
+ * @file Command Handler Utility
+ * @description Gestionnaire de commandes qui charge automatiquement toutes les commandes et gère leur exécution avec système de cooldown
+ * @module utils/commandHandler
+ * @requires node:fs
+ * @requires node:path
+ */
 
 const fs = require('node:fs');
 const path = require('node:path');

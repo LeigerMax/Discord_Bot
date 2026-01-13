@@ -1,9 +1,10 @@
 /**
- * Event: messageDelete
- * Enregistre les messages supprimés pour pouvoir les afficher
+ * @file Message Delete Event
+ * @description Enregistre les messages supprimés en mémoire pour permettre leur consultation ultérieure
+ * @module events/messageDelete
+ * @listens messageDelete
+ * @requires discord.js
  */
-
-const { EmbedBuilder } = require('discord.js');
 
 // Stockage en mémoire des messages supprimés (max 100 derniers)
 const deletedMessages = [];

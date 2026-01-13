@@ -1,7 +1,8 @@
 /**
  * @file Cursed Messages Event
- * @description Gère les messages des joueurs maudits (altération de texte)
- * @version 1.0.0
+ * @description Gère les messages des joueurs maudits en appliquant diverses altérations de texte selon le type de malédiction
+ * @module events/cursedMessages
+ * @listens messageCreate
  */
 
 module.exports = (client) => {

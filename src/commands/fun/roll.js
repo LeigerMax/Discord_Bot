@@ -1,7 +1,9 @@
 /**
  * @file Roll Command
- * @description Lance un nombre aléatoire entre 1 et 100
- * @version 1.0.0
+ * @description Lance un nombre aléatoire entre 1 et 100 avec code couleur selon le résultat
+ * @module commands/fun/roll
+ * @category Fun
+ * @requires discord.js
  */
 
 const { EmbedBuilder } = require('discord.js');
@@ -11,7 +13,7 @@ module.exports = {
   description: 'Lance un nombre aléatoire entre 1 et 100',
   usage: '!roll',
   
-  async execute(message, args) {
+  async execute(message, _args) {
     try {
       // Génère un nombre aléatoire entre 1 et 100
       const result = Math.floor(Math.random() * 100) + 1;

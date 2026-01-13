@@ -1,5 +1,9 @@
 /**
- * Commande welcome pour gérer le système de bienvenue
+ * @file Welcome Command
+ * @description Gère le système de bienvenue avec messages aléatoires pour les nouveaux membres
+ * @module commands/admin/welcome
+ * @category Admin
+ * @requires discord.js
  */
 
 const { SlashCommandBuilder, PermissionFlagsBits } = require('discord.js');

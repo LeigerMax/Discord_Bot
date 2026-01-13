@@ -3,8 +3,6 @@
  * Teste le système de réponse aux messages privés
  */
 
-const { EmbedBuilder } = require('discord.js');
-
 describe('Event: dmReply', () => {
   let mockClient;
   let mockMessage;

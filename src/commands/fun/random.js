@@ -1,7 +1,8 @@
 /**
  * @file Random Command
- * @description Choisit une option au hasard parmi celles fournies
- * @version 1.0.0
+ * @description Choisit une option au hasard parmi celles fournies avec support des guillemets pour options multimots
+ * @module commands/fun/random
+ * @category Fun
  */
 
 module.exports = {

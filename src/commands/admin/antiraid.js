@@ -1,7 +1,9 @@
 /**
- * Système anti-raid personnalisable
- * @param {Message} message - Le message Discord
- * @param {Array} args - Les arguments de la commande
+ * @file Antiraid Command
+ * @description Système anti-raid personnalisable pour protéger le serveur contre les raids massifs
+ * @module commands/admin/antiraid
+ * @category Admin
+ * @requires discord.js
  */
 
 const { EmbedBuilder } = require('discord.js');
@@ -11,6 +13,19 @@ const antiRaidConfig = new Map();
 
 // Tracking des joins récents
 const recentJoins = new Map();
+
+// Garbage collector: nettoie les anciennes entrées toutes les 10 minutes
+setInterval(() => {
+  const now = Date.now();
+  for (const [guildId, joins] of recentJoins) {
+    const filtered = joins.filter(j => now - j.timestamp < 60000); // Garde uniquement les joins de la dernière minute
+    if (filtered.length === 0) {
+      recentJoins.delete(guildId);
+    } else {
+      recentJoins.set(guildId, filtered);
+    }
+  }
+}, 10 * 60 * 1000);
 
 module.exports = {
   name: 'antiraid',
@@ -127,21 +142,23 @@ module.exports = {
     }
 
     switch (option) {
-      case 'joinlimit':
-        const limit = parseInt(value);
+      case 'joinlimit': {
+        const limit = Number.parseInt(value, 10);
         if (!limit || limit < 1 || limit > 20) {
           return message.reply('❌ La limite de joins doit être entre 1 et 20!');
         }
         config.joinLimit = limit;
         return message.reply(`✅ Limite de joins définie à **${limit}** utilisateurs.`);
+      }
 
-      case 'joinwindow':
-        const window = parseInt(value);
+      case 'joinwindow': {
+        const window = Number.parseInt(value, 10);
         if (!window || window < 5 || window > 60) {
           return message.reply('❌ La fenêtre de temps doit être entre 5 et 60 secondes!');
         }
         config.joinWindow = window * 1000;
         return message.reply(`✅ Fenêtre de temps définie à **${window}** secondes.`);
+      }
 
       case 'action':
         if (value !== 'kick' && value !== 'ban') {

@@ -1,7 +1,10 @@
 /**
- * Commande: play
- * Joue de la musique depuis YouTube, SoundCloud, Spotify, etc.
- * Utilise discord-player v7 avec la méthode player.play()
+ * @file Play Command
+ * @description Joue de la musique depuis YouTube en utilisant discord-player v7
+ * @module commands/music/play
+ * @category Music
+ * @requires discord-player
+ * @requires ytdl-core
  */
 
 const { useMainPlayer } = require('discord-player');
@@ -32,15 +35,9 @@ module.exports = {
       // Message d'attente
       const searchMsg = await message.reply('🔍 Recherche en cours...');
       
-      // Lance la recherche et la lecture avec player.play()
-      // Cette méthode gère automatiquement:
-      // - La recherche de la musique
-      // - La connexion au salon vocal
-      // - La création de la queue
-      // - L'ajout du track et le démarrage de la lecture
-      const { track } = await player.play(channel, query, {
+     
+       const { track } = await player.play(channel, query, {
         nodeOptions: {
-          // metadata sera accessible via queue.metadata
           metadata: message.channel
         }
       });

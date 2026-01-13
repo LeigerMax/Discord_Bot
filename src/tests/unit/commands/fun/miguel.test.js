@@ -3,7 +3,6 @@
  * Teste la vérification du statut de Miguel
  */
 
-const { EmbedBuilder } = require('discord.js');
 const miguelCommand = require('../../../../commands/fun/miguel.js');
 
 // Mock de l'environnement

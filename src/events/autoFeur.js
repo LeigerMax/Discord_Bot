@@ -1,7 +1,8 @@
 /**
  * @file Auto Feur Event
- * @description Répond "feur" aux messages se terminant par "quoi"
- * @version 1.0.0
+ * @description Répond automatiquement "feur" aux messages se terminant par "quoi"
+ * @module events/autoFeur
+ * @listens messageCreate
  */
 
 module.exports = (client) => {
@@ -14,7 +15,7 @@ module.exports = (client) => {
       try {
         await message.reply('feur');
       }
-      catch (error) {
+      catch (_error) {
         // L'erreur est gérée silencieusement - pas besoin de log en production
       }
     }

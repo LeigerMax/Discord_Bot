@@ -62,9 +62,43 @@ describe('Welcome Command', () => {
   // TESTS DE LA FONCTION getRandomWelcomeMessage
   // ========================================
 
-  test.todo('getRandomWelcomeMessage devrait retourner un message');
-  test.todo('getRandomWelcomeMessage devrait contenir la mention du membre');
-  test.todo('getRandomWelcomeMessage devrait retourner différents messages');
+  test('getRandomWelcomeMessage devrait retourner un message', async () => {
+    // Importe la fonction exportée (si elle l'est) ou appelle la commande
+    await welcomeCommand.execute(mockInteraction);
+    
+    const replyCall = mockInteraction.reply.mock.calls[0][0];
+    expect(replyCall.content).toBeDefined();
+    expect(typeof replyCall.content).toBe('string');
+    expect(replyCall.content.length).toBeGreaterThan(0);
+  });
+
+  test('getRandomWelcomeMessage devrait contenir la mention du membre', async () => {
+    await welcomeCommand.execute(mockInteraction);
+    
+    const replyCall = mockInteraction.reply.mock.calls[0][0];
+    // Vérifie que le message contient la mention de l'utilisateur
+    expect(replyCall.content).toContain('<@123456789>');
+  });
+
+  test('getRandomWelcomeMessage devrait retourner différents messages', async () => {
+    const messages = new Set();
+    
+    // Teste 20 fois pour avoir une bonne probabilité de messages différents
+    for (let i = 0; i < 20; i++) {
+      const mockInt = {
+        user: { username: 'TestUser', toString: () => '<@123456789>' },
+        options: { getSubcommand: jest.fn(() => 'test') },
+        reply: jest.fn().mockResolvedValue(undefined),
+      };
+      
+      await welcomeCommand.execute(mockInt);
+      const replyCall = mockInt.reply.mock.calls[0][0];
+      messages.add(replyCall.content);
+    }
+    
+    // Avec 10 messages possibles, on devrait en avoir au moins 3 différents sur 20 essais
+    expect(messages.size).toBeGreaterThan(2);
+  });
 
   // ========================================
   // TESTS DE GESTION D'ERREUR

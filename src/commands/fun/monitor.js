@@ -1,7 +1,9 @@
 /**
  * @file Monitor Command
- * @description Vérifie l'état de ton écran
- * @version 1.0.0
+ * @description Vérifie l'état de l'écran d'un utilisateur avec résultats aléatoires pondérés
+ * @module commands/fun/monitor
+ * @category Fun
+ * @requires discord.js
  */
 
 const { EmbedBuilder } = require('discord.js');
@@ -11,7 +13,7 @@ module.exports = {
   description: 'Vérifie l\'état de ton écran',
   usage: '!monitor [@utilisateur]',
   
-  async execute(message, args) {
+  async execute(message, _args) {
     try {
       // Vérifie si un utilisateur est mentionné, sinon utilise l'auteur
       const targetUser = message.mentions.users.first() || message.author;

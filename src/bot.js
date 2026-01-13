@@ -1,32 +1,21 @@
 /**
- * Bot Discord principal
- * Initialise le client, charge les commandes et gère les événements
- **/
+ * @file Discord Bot Main Entry Point
+ * @description Initialise le client Discord, configure le système musical, charge les commandes et gère les événements
+ * @module bot
+ * @requires dotenv
+ * @requires discord.js
+ * @requires discord-player
+ * @author Maxou
+ * @version 0.1.4
+ */
 
 require('dotenv').config();
 const { Client, GatewayIntentBits } = require('discord.js');
 const { Player } = require('discord-player');
-const ffmpegPath = require('ffmpeg-static');
 const path = require('node:path');
 const CommandHandler = require('./utils/commandHandler');
 const keepAlive = require('./services/keepAlive');
-const play = require('play-dl');
 
-// ============================================
-// Configuration
-// ============================================
-
-// Configure FFmpeg pour le traitement audio
-process.env.FFMPEG_PATH = ffmpegPath;
-
-// Configure play-dl pour éviter les erreurs d'authentification
-play.getFreeClientID().then(clientID => play.setToken({
-  soundcloud: {
-    client_id: clientID
-  }
-})).catch(() => {
-  console.log('⚠️ Impossible de configurer le client SoundCloud, mais YouTube devrait fonctionner');
-});
 
 // ============================================
 // Initialisation du client Discord
@@ -58,54 +47,88 @@ const player = new Player(client, {
   }
 });
 
-// Variable pour suivre le chargement des extracteurs
-let extractorsLoaded = false;
-
 // Fonction pour charger les extracteurs
 async function loadExtractors() {
   try {
-    // Charge d'abord l'extracteur YouTube (le plus important)
-    const { YoutubeExtractor } = require('discord-player-youtube');
-    await player.extractors.register(YoutubeExtractor, {
-      authentication: process.env.YOUTUBE_COOKIE || undefined,
-      streamOptions: {
-        useClient: 'ANDROID',  // Utilise le client Android pour éviter les restrictions
-        highWaterMark: 1 << 25
-      }
-    });
-    console.log('✅ Extracteur YouTube chargé (mode ANDROID)!');
+  
+      const { YoutubeExtractor } = require('discord-player-youtube');
+      await player.extractors.register(YoutubeExtractor, {
+        streamOptions: {
+          // Essaie plusieurs clients pour maximiser la compatibilité
+          useClient: ['WEB', 'ANDROID', 'IOS',],
+          highWaterMark: 1 << 25
+        },
+        
+        // Utilise ytdl-core pour contourner les restrictions
+        createStream: async (url) => {
+          const ytdl = require('ytdl-core');
+          return ytdl(url, {
+            filter: 'audioonly',
+            quality: 'highestaudio',
+            highWaterMark: 1 << 25,
+            dlChunkSize: 0,
+            // Options supplémentaires pour éviter le blocage
+            requestOptions: {
+              headers: {
+                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
+              }
+            }
+          });
+        }
+      });
+     
     
-    // Puis charge les autres extracteurs (SoundCloud, Spotify, etc.)
+    // Charge les autres extracteurs (SoundCloud, Spotify, etc.)
     const { DefaultExtractors } = require('@discord-player/extractor');
     await player.extractors.loadMulti(DefaultExtractors);
-    console.log('✅ Autres extracteurs chargés!');
     
-    extractorsLoaded = true;
-    console.log('📋 Total extracteurs disponibles:', player.extractors.store.size);
-    console.log('');
+    console.log('✅ Extracteurs chargés avec succès');
   } catch (error) {
-    console.error('❌ Erreur lors du chargement des extracteurs:', error);
+     console.error('❌ Erreur lors du chargement de l\'extracteur YouTube:', error);
   }
 }
 
 // Événements du player
 player.events.on('playerStart', (queue, track) => {
+  console.log('🎵 [Lecture démarrée]');
+  console.log(`   Titre: ${track.title}`);
+  console.log(`   Source: ${track.source}`);
+  console.log(`   URL: ${track.url}`);
+  if (track.raw?.source) {
+    console.log(`   Extracteur utilisé: ${track.raw.source}`);
+  }
+  console.log('');
   queue.metadata.send(`🎶 Lecture en cours: **${track.title}**`);
 });
 
 player.events.on('error', (queue, error) => {
   // N'affiche que les erreurs critiques, pas les erreurs de fallback
-  console.error('❌ Erreur critique du player:', error.message);
+  console.error('❌ [Erreur critique du player]:', error.message);
   if (queue?.metadata) {
     queue.metadata.send('❌ Une erreur est survenue lors de la lecture!');
   }
 });
 
 player.events.on('playerError', (queue, error) => {
-  // N'affiche que les erreurs critiques, pas les tentatives de fallback
-  console.error('❌ Erreur de lecture:', error.message);
+  // Filtre les erreurs de streaming pour ne pas spammer
+  const errorMsg = error.message || error.toString();
+  
+  // Ignore les erreurs de tentatives de fallback (messages informatifs)
+  if (errorMsg.includes('Stream error') || errorMsg.includes('Extractor')) {
+    console.log('⚠️  [Fallback] Tentative avec un autre extracteur...');
+    return;
+  }
+  
+  console.error('❌ [Erreur de lecture]:', errorMsg);
   if (queue?.metadata) {
-    queue.metadata.send(`❌ Erreur: ${error.message}`);
+    // Messages d'erreur plus clairs pour l'utilisateur
+    if (errorMsg.includes('Sign in') || errorMsg.includes('signed in')) {
+      queue.metadata.send('❌ Cette vidéo nécessite une authentification. Essayez avec un autre lien ou configurez les cookies YouTube.');
+    } else if (errorMsg.includes('extract stream')) {
+      queue.metadata.send('❌ Impossible de lire cette musique. Elle est peut-être restreinte ou indisponible.');
+    } else {
+      queue.metadata.send(`❌ Erreur de lecture: ${errorMsg}`);
+    }
   }
 });
 
@@ -126,6 +149,32 @@ client.once('clientReady', async () => {
   console.log(`Date: ${new Date().toLocaleString('fr-FR')}`);
   console.log(`Serveurs: ${client.guilds.cache.size}`);
   console.log(`${'='.repeat(50)}\n`);
+  
+  // Configure la présence du bot
+  const botConfig = require('./config/botConfig.json');
+  const { ActivityType } = require('discord.js');
+  
+  try {
+    const { status, activities } = botConfig.presence;
+    const activityTypeMap = {
+      'PLAYING': ActivityType.Playing,
+      'WATCHING': ActivityType.Watching,
+      'LISTENING': ActivityType.Listening,
+      'STREAMING': ActivityType.Streaming,
+      'COMPETING': ActivityType.Competing
+    };
+    
+    client.user.setPresence({
+      status: status || 'online',
+      activities: activities.map(activity => ({
+        name: activity.name,
+        type: activityTypeMap[activity.type] || ActivityType.Playing
+      }))
+    });
+    console.log(`✅ Présence du bot définie: ${status} - ${activities[0]?.name}`);
+  } catch (error) {
+    console.error('❌ Erreur lors de la définition de la présence:', error);
+  }
 
   // Charge toutes les commandes
   const commandsPath = path.join(__dirname, 'commands');

@@ -1,11 +1,10 @@
 /**
  * @file Voice State Update Event
- * @description Événement voiceStateUpdate pour un user
- * @param {Client} client - Le client Discord
- * @version 1.0.0
+ * @description Surveille les changements de salon vocal d'un utilisateur spécifique et annonce ses entrées/sorties
+ * @module events/voiceStateUpdate
+ * @listens voiceStateUpdate
+ * @requires discord.js
  */
-
-
 
 const { EmbedBuilder } = require('discord.js');
 const LOOSER_ID = process.env.LOOSER_ID;

@@ -215,7 +215,7 @@ describe('Commande: help', () => {
       await helpCommand.execute(mockMessage, []);
 
       const embed = mockMessage.reply.mock.calls[0][0].embeds[0];
-      const hasEmoji = embed.data.fields.some(f => /[⚙️🎮📋🎵]/.test(f.name));
+      const hasEmoji = embed.data.fields.some(f => /\p{Emoji}/u.test(f.name));
       expect(hasEmoji).toBe(true);
     });
   });

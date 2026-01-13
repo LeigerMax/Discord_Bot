@@ -1,7 +1,9 @@
 /**
  * @file Brain Command
  * @description Vérifie si le cerveau d'un utilisateur est allumé, éteint, en lag, etc.
- * @version 1.0.0
+ * @module commands/fun/brain
+ * @category Fun
+ * @requires discord.js
  */
 
 const { EmbedBuilder } = require('discord.js');
@@ -11,7 +13,7 @@ module.exports = {
   description: 'Vérifie si ton cerveau est allumé',
   usage: '!brain [@utilisateur]',
   
-  async execute(message, args) {
+  async execute(message, _args) {
     try {
       // Vérifie si un utilisateur est mentionné, sinon utilise l'auteur
       const targetUser = message.mentions.users.first() || message.author;
