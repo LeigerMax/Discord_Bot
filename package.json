@@ -8,7 +8,8 @@
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage",
     "lint": "eslint src/**/*.js",
-    "lint:fix": "eslint src/**/*.js --fix"
+    "lint:fix": "eslint src/**/*.js --fix",
+    "validate-cookies": "node src/utils/validateCookies.js"
   },
   "jest": {
     "testEnvironment": "node",

@@ -55,24 +55,38 @@ async function loadExtractors() {
       await player.extractors.register(YoutubeExtractor, {
         streamOptions: {
           // Essaie plusieurs clients pour maximiser la compatibilité
-          useClient: ['WEB', 'ANDROID', 'IOS',],
+          useClient: ['ANDROID', 'WEB', 'IOS'],
           highWaterMark: 1 << 25
         },
+        authentication: process.env.YOUTUBE_COOKIE || undefined,
         
         // Utilise ytdl-core pour contourner les restrictions
         createStream: async (url) => {
           const ytdl = require('ytdl-core');
+          const cookieOptions = {};
+          
+          // Ajoute les cookies si disponibles
+          if (process.env.YOUTUBE_COOKIE) {
+            cookieOptions.requestOptions = {
+              headers: {
+                cookie: process.env.YOUTUBE_COOKIE,
+                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
+              }
+            };
+          } else {
+            cookieOptions.requestOptions = {
+              headers: {
+                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
+              }
+            };
+          }
+          
           return ytdl(url, {
             filter: 'audioonly',
             quality: 'highestaudio',
             highWaterMark: 1 << 25,
             dlChunkSize: 0,
-            // Options supplémentaires pour éviter le blocage
-            requestOptions: {
-              headers: {
-                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
-              }
-            }
+            ...cookieOptions
           });
         }
       });
@@ -83,6 +97,13 @@ async function loadExtractors() {
     await player.extractors.loadMulti(DefaultExtractors);
     
     console.log('✅ Extracteurs chargés avec succès');
+    
+    // Affiche le statut de configuration des cookies
+    if (process.env.YOUTUBE_COOKIE) {
+      console.log('Cookies YouTube configurés ✓');
+    } else {
+      console.log('Cookies YouTube non configurés');
+    }
   } catch (error) {
      console.error('❌ Erreur lors du chargement de l\'extracteur YouTube:', error);
   }
@@ -115,7 +136,8 @@ player.events.on('playerError', (queue, error) => {
   
   // Ignore les erreurs de tentatives de fallback (messages informatifs)
   if (errorMsg.includes('Stream error') || errorMsg.includes('Extractor')) {
-    console.log('⚠️  [Fallback] Tentative avec un autre extracteur...');
+    console.log('🔄 [Fallback automatique] Discord-player essaie un autre extracteur...');
+    console.log('   ℹ️  Ceci est normal et ne bloque pas la lecture');
     return;
   }
   
@@ -123,7 +145,12 @@ player.events.on('playerError', (queue, error) => {
   if (queue?.metadata) {
     // Messages d'erreur plus clairs pour l'utilisateur
     if (errorMsg.includes('Sign in') || errorMsg.includes('signed in')) {
-      queue.metadata.send('❌ Cette vidéo nécessite une authentification. Essayez avec un autre lien ou configurez les cookies YouTube.');
+      const cookieConfigured = process.env.YOUTUBE_COOKIE ? '✓' : '✗';
+      queue.metadata.send(
+        `❌ Cette vidéo nécessite une authentification YouTube.\n` +
+        `📋 Cookies configurés: ${cookieConfigured}\n` +
+        `${!process.env.YOUTUBE_COOKIE ? '💡 Ajoutez la variable YOUTUBE_COOKIE sur Render (voir YOUTUBE_COOKIES_GUIDE.md)' : '⚠️ Les cookies ont peut-être expiré, essayez de les renouveler.'}`
+      );
     } else if (errorMsg.includes('extract stream')) {
       queue.metadata.send('❌ Impossible de lire cette musique. Elle est peut-être restreinte ou indisponible.');
     } else {
