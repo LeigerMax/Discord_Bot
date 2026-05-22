@@ -24,6 +24,52 @@ function isPlaceholder(url) {
          url.trim() === '';
 }
 
+/**
+ * Extrait l'URL de l'image ou du GIF d'un message Discord (depuis les pièces jointes ou les embeds)
+ * @param {Object} msg - Le message Discord.js
+ * @returns {string|null}
+ */
+function getImageUrl(msg) {
+  // 1. Recherche dans les pièces jointes
+  if (msg.attachments && msg.attachments.size > 0) {
+    const attachment = msg.attachments.find(att => {
+      const isImgType = att.contentType?.startsWith('image/');
+      const isImgExt = /\.(jpg|jpeg|png|gif|webp)$/i.test(att.name || att.url || '');
+      return isImgType || isImgExt;
+    });
+    if (attachment) return attachment.url;
+  }
+
+  // 2. Recherche dans les embeds (ex: GIFs Tenor/Giphy intégrés)
+  if (msg.embeds && msg.embeds.length > 0) {
+    const embed = msg.embeds.find(e => {
+      const imgUrl = e.image?.url || e.thumbnail?.url;
+      return !!imgUrl;
+    });
+    if (embed) return embed.image?.url || embed.thumbnail?.url;
+  }
+
+  // 3. Fallback: Parse du contenu textuel pour les liens directs ou Giphy
+  const content = msg.content || '';
+  const urlRegex = /(https?:\/\/[^\s]+)/gi;
+  const urls = content.match(urlRegex);
+  if (urls) {
+    for (const url of urls) {
+      // Lien direct vers une image ou un GIF
+      if (/\.(jpg|jpeg|png|gif|webp)(?:\?[^\s]*)?$/i.test(url)) {
+        return url;
+      }
+      // Lien Giphy direct
+      const giphyMatch = url.match(/giphy\.com\/gifs\/.*-([a-zA-Z0-9]+)/i);
+      if (giphyMatch && giphyMatch[1]) {
+        return `https://media.giphy.com/media/${giphyMatch[1]}/giphy.gif`;
+      }
+    }
+  }
+
+  return null;
+}
+
 module.exports = (client) => {
   const config = botConfig.memeOverlay;
 
@@ -110,20 +156,24 @@ module.exports = (client) => {
       // 4. Vérifie si le message provient bien du salon configuré
       if (message.channel.id !== targetChannelId) return;
 
-      // 4. Vérifie s'il y a des pièces jointes dans le message
-      if (message.attachments.size === 0) return;
+      // 5. Recherche une image ou un GIF (pièce jointe ou embed)
+      let imageUrl = getImageUrl(message);
 
-      // 5. Recherche une pièce jointe qui est une image
-      const attachment = message.attachments.find(att => {
-        const isImgType = att.contentType?.startsWith('image/');
-        const isImgExt = /\.(jpg|jpeg|png|gif|webp)$/i.test(att.name || att.url || '');
-        return isImgType || isImgExt;
-      });
+      // Si aucune image trouvée directement mais que le message contient un lien potentiel,
+      // on attend 1 seconde pour laisser à Discord le temps de générer les embeds (unfurling)
+      if (!imageUrl && message.content && /(tenor\.com|giphy\.com|https?:\/\/)/i.test(message.content)) {
+        await new Promise(resolve => setTimeout(resolve, 1000));
+        try {
+          const fetchedMessage = await message.channel.messages.fetch(message.id);
+          imageUrl = getImageUrl(fetchedMessage);
+        } catch (e) {
+          console.warn('⚠️ [MemeOverlay] Impossible de récupérer le message mis à jour pour les embeds:', e.message);
+        }
+      }
 
-      if (!attachment) return;
+      if (!imageUrl) return;
 
       // URL de l'image du mème et le texte saisi par l'utilisateur
-      const imageUrl = attachment.url;
       const textContent = message.content || '';
 
       console.log(`📸 [MemeOverlay] Mème détecté dans le salon ${message.channel.name || message.channel.id} par ${message.author.tag}`);

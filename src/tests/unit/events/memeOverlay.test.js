@@ -199,4 +199,36 @@ describe('MemeOverlay Event', () => {
 
     expect(socketMock.emit).not.toHaveBeenCalled();
   });
+
+  test('devrait émettre diffuser_meme quand le message contient uniquement une pièce jointe et aucun texte', async () => {
+    mockMessage.content = '';
+    mockMessage.attachments.set('att1', {
+      url: 'http://example.com/meme.jpg',
+      name: 'meme.jpg',
+      contentType: 'image/jpeg'
+    });
+
+    await messageCreateHandler(mockMessage);
+
+    expect(socketMock.emit).toHaveBeenCalledWith('diffuser_meme', expect.objectContaining({
+      url: 'http://example.com/meme.jpg',
+      text: '',
+      author: 'TestUser#1234'
+    }));
+  });
+
+  test('devrait émettre diffuser_meme quand le message a un lien image ou Giphy dans le contenu', async () => {
+    mockMessage.content = 'Regarde https://giphy.com/gifs/funny-cat-3o7aD2saalFrP05anC';
+    mockMessage.embeds = [{
+      thumbnail: { url: 'https://media.giphy.com/media/3o7aD2saalFrP05anC/giphy.gif' }
+    }];
+
+    await messageCreateHandler(mockMessage);
+
+    expect(socketMock.emit).toHaveBeenCalledWith('diffuser_meme', expect.objectContaining({
+      url: 'https://media.giphy.com/media/3o7aD2saalFrP05anC/giphy.gif',
+      text: 'Regarde https://giphy.com/gifs/funny-cat-3o7aD2saalFrP05anC',
+      author: 'TestUser#1234'
+    }));
+  });
 });
