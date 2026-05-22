@@ -9,39 +9,73 @@ const { io } = require('socket.io-client');
 const botConfig = require('../config/botConfig.json');
 const storageService = require('../services/storageService');
 
+// Cache de connexions clients Socket.io pour les URL de serveurs externes
+const activeConnections = new Map();
+
+/**
+ * Détermine si une URL est un placeholder ou vide
+ * @param {string} url - L'URL à tester
+ * @returns {boolean}
+ */
+function isPlaceholder(url) {
+  return !url || 
+         url === 'https://ton-serveur-gratuit.onrender.com' || 
+         url === 'METS_ICI_L_ID_DU_SALON_DISCORD' ||
+         url.trim() === '';
+}
+
 module.exports = (client) => {
   const config = botConfig.memeOverlay;
 
-  // Si l'URL du serveur est manquante, on ne fait rien
-  if (!config || !config.serverUrl) {
-    console.error('❌ [MemeOverlay] L\'URL du serveur WebSocket (serverUrl) n\'est pas configurée.');
-    return;
+  /**
+   * Récupère ou crée une connexion WebSocket client pour une URL donnée
+   * @param {string} serverUrl 
+   * @returns {Object|null}
+   */
+  function getOrCreateSocket(serverUrl) {
+    if (isPlaceholder(serverUrl)) return null;
+
+    if (activeConnections.has(serverUrl)) {
+      return activeConnections.get(serverUrl);
+    }
+
+    console.log(`🔌 [MemeOverlay] Initialisation de la connexion vers le serveur WebSocket: ${serverUrl}`);
+
+    const socket = io(serverUrl, {
+      transports: ['websocket'],
+      autoConnect: true,
+      reconnection: true,
+      reconnectionAttempts: 3, // Limite les tentatives pour éviter le spam de logs en cas d'erreur
+      reconnectionDelay: 2000,
+      reconnectionDelayMax: 5000,
+      timeout: 10000
+    });
+
+    socket.on('connect', () => {
+      console.log(`✅ [MemeOverlay] Connecté avec succès au serveur WebSocket externe: ${serverUrl}`);
+    });
+
+    socket.on('connect_error', (error) => {
+      console.error(`❌ [MemeOverlay] Erreur de connexion au serveur WebSocket externe ${serverUrl}:`, error.message);
+    });
+
+    socket.on('disconnect', (reason) => {
+      console.log(`⚠️ [MemeOverlay] Déconnecté du serveur WebSocket externe ${serverUrl}. Raison: ${reason}`);
+    });
+
+    activeConnections.set(serverUrl, socket);
+    return socket;
   }
 
-  console.log(`🔌 [MemeOverlay] Connexion au serveur WebSocket: ${config.serverUrl}`);
-
-  // Initialisation du client Socket.io avec reconnexion automatique
-  const socket = io(config.serverUrl, {
-    autoConnect: true,
-    reconnection: true,
-    reconnectionAttempts: Infinity,
-    reconnectionDelay: 1000,
-    reconnectionDelayMax: 5000,
-    timeout: 20000
-  });
-
-  // Événements de connexion Socket.io
-  socket.on('connect', () => {
-    console.log('✅ [MemeOverlay] Connecté avec succès au serveur WebSocket.');
-  });
-
-  socket.on('connect_error', (error) => {
-    console.error('❌ [MemeOverlay] Erreur de connexion au serveur WebSocket:', error.message);
-  });
-
-  socket.on('disconnect', (reason) => {
-    console.log(`⚠️ [MemeOverlay] Déconnecté du serveur WebSocket. Raison: ${reason}`);
-  });
+  // Initialisation du socket global s'il est configuré et valide
+  if (config && config.serverUrl && !isPlaceholder(config.serverUrl)) {
+    const globalSocket = getOrCreateSocket(config.serverUrl);
+    if (globalSocket) {
+      client.memeOverlaySocket = globalSocket;
+    }
+  } else {
+    console.log('ℹ️ [MemeOverlay] Aucun serveur WebSocket global configuré ou placeholder détecté. Utilisation du serveur WebSocket intégré ou des configurations par serveur.');
+  }
 
   // Écouteur d'événement Discord messageCreate
   client.on('messageCreate', async (message) => {
@@ -52,12 +86,14 @@ module.exports = (client) => {
       // 2. Récupère la configuration spécifique au serveur (guild)
       let isEnabled = false;
       let targetChannelId = null;
+      let serverUrl = '';
 
       if (message.guild) {
         const guildConfig = storageService.get(message.guild.id);
         if (guildConfig && guildConfig.memeOverlay) {
           isEnabled = guildConfig.memeOverlay.enabled;
           targetChannelId = guildConfig.memeOverlay.channelId;
+          serverUrl = guildConfig.memeOverlay.serverUrl || '';
         }
       }
 
@@ -65,6 +101,7 @@ module.exports = (client) => {
       if (targetChannelId === null) {
         isEnabled = config ? config.enabled : false;
         targetChannelId = config ? config.channelId : null;
+        serverUrl = config ? config.serverUrl : '';
       }
 
       // 3. Vérifie si la fonctionnalité est activée
@@ -95,19 +132,35 @@ module.exports = (client) => {
         console.log(`💬 Texte: "${textContent}"`);
       }
 
-      // 6. Émet l'événement au serveur WebSocket
-      socket.emit('diffuser_meme', {
+      const payload = {
         url: imageUrl,
         text: textContent,
         author: message.author.tag,
         timestamp: new Date().toISOString()
-      });
+      };
+
+      // 6. Émet l'événement localement via le serveur WebSocket intégré s'il existe
+      if (client.io) {
+        console.log('📢 [MemeOverlay] Diffusion locale du mème via le serveur WebSocket intégré.');
+        client.io.emit('diffuser_meme', payload);
+      }
+
+      // 7. Émet l'événement au serveur WebSocket configuré (externe) si non-placeholder
+      if (serverUrl && !isPlaceholder(serverUrl)) {
+        const socket = getOrCreateSocket(serverUrl);
+        if (socket) {
+          console.log(`📢 [MemeOverlay] Diffusion externe du mème vers: ${serverUrl}`);
+          socket.emit('diffuser_meme', payload);
+        }
+      } else {
+        // En fallback, si on a un socket global (comme configuré dans les tests unitaires)
+        if (client.memeOverlaySocket && typeof client.memeOverlaySocket.emit === 'function') {
+          client.memeOverlaySocket.emit('diffuser_meme', payload);
+        }
+      }
 
     } catch (error) {
       console.error('❌ [MemeOverlay] Une erreur est survenue lors du traitement du message:', error);
     }
   });
-
-  // Expose le socket sur l'objet client pour pouvoir le fermer ou l'utiliser ailleurs (comme dans les tests)
-  client.memeOverlaySocket = socket;
 };

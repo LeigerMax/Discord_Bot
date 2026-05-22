@@ -24,8 +24,13 @@ class UpdateService {
     try {
       console.log(`🔍 Vérification des mises à jour (${this.repo})...`);
       
+      const headers = { 'User-Agent': 'Nexus-Bot-Update-Checker' };
+      if (process.env.GITHUB_TOKEN) {
+        headers['Authorization'] = `token ${process.env.GITHUB_TOKEN}`;
+      }
+
       const response = await axios.get(`https://api.github.com/repos/${this.repo}/releases/latest`, {
-        headers: { 'User-Agent': 'Nexus-Bot-Update-Checker' }
+        headers
       });
 
       const latest = response.data;
@@ -44,6 +49,10 @@ class UpdateService {
         return null;
       }
     } catch (error) {
+      if (error.response && error.response.status === 403) {
+        console.warn('⚠️ [UPDATE] Impossible de vérifier les mises à jour : Limite de taux d\'API GitHub dépassée ou Accès interdit (403).');
+        return null;
+      }
       if (error.response && error.response.status === 404) {
         console.log(`✅ Le bot est à jour (v${this.currentVersion}) - Aucun release public trouvé.`);
         return null;
