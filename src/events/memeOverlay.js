@@ -30,33 +30,34 @@ function isPlaceholder(url) {
  * @returns {string|null}
  */
 function getImageUrl(msg) {
-  // 1. Recherche dans les pièces jointes
+  // 1. Recherche dans les pièces jointes (images et vidéos MP4/WebM)
   if (msg.attachments && msg.attachments.size > 0) {
     const attachment = msg.attachments.find(att => {
       const isImgType = att.contentType?.startsWith('image/');
-      const isImgExt = /\.(jpg|jpeg|png|gif|webp)$/i.test(att.name || att.url || '');
-      return isImgType || isImgExt;
+      const isVidType = att.contentType?.startsWith('video/');
+      const isMediaExt = /\.(jpg|jpeg|png|gif|webp|mp4|webm)$/i.test(att.name || att.url || '');
+      return isImgType || isVidType || isMediaExt;
     });
     if (attachment) return attachment.url;
   }
 
-  // 2. Recherche dans les embeds (ex: GIFs Tenor/Giphy intégrés)
+  // 2. Recherche dans les embeds (priorité à la vidéo MP4/WebM si existante pour la performance, sinon image)
   if (msg.embeds && msg.embeds.length > 0) {
     const embed = msg.embeds.find(e => {
-      const imgUrl = e.image?.url || e.thumbnail?.url;
-      return !!imgUrl;
+      const mediaUrl = e.video?.url || e.image?.url || e.thumbnail?.url;
+      return !!mediaUrl;
     });
-    if (embed) return embed.image?.url || embed.thumbnail?.url;
+    if (embed) return embed.video?.url || embed.image?.url || embed.thumbnail?.url;
   }
 
-  // 3. Fallback: Parse du contenu textuel pour les liens directs ou Giphy
+  // 3. Fallback: Parse du contenu textuel pour les liens directs, Giphy ou vidéos
   const content = msg.content || '';
   const urlRegex = /(https?:\/\/[^\s]+)/gi;
   const urls = content.match(urlRegex);
   if (urls) {
     for (const url of urls) {
-      // Lien direct vers une image ou un GIF
-      if (/\.(jpg|jpeg|png|gif|webp)(?:\?[^\s]*)?$/i.test(url)) {
+      // Lien direct vers une image, un GIF ou une vidéo
+      if (/\.(jpg|jpeg|png|gif|webp|mp4|webm)(?:\?[^\s]*)?$/i.test(url)) {
         return url;
       }
       // Lien Giphy direct
@@ -173,8 +174,9 @@ module.exports = (client) => {
 
       if (!imageUrl) return;
 
-      // URL de l'image du mème et le texte saisi par l'utilisateur
-      const textContent = message.content || '';
+      // URL de l'image du mème et le texte saisi par l'utilisateur (nettoyé des liens)
+      let textContent = message.content || '';
+      textContent = textContent.replace(/https?:\/\/[^\s]+/gi, '').replace(/\s+/g, ' ').trim();
 
       console.log(`📸 [MemeOverlay] Mème détecté dans le salon ${message.channel.name || message.channel.id} par ${message.author.tag}`);
       console.log(`🔗 URL: ${imageUrl}`);

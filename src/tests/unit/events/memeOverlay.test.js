@@ -227,7 +227,7 @@ describe('MemeOverlay Event', () => {
 
     expect(socketMock.emit).toHaveBeenCalledWith('diffuser_meme', expect.objectContaining({
       url: 'https://media.giphy.com/media/3o7aD2saalFrP05anC/giphy.gif',
-      text: 'Regarde https://giphy.com/gifs/funny-cat-3o7aD2saalFrP05anC',
+      text: 'Regarde',
       author: 'TestUser#1234'
     }));
   });
