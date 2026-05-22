@@ -1,7 +1,20 @@
 {
-  "current": "1.0.4",
-  "releaseDate": "19 Avril 2026",
+  "current": "1.1.0",
+  "releaseDate": "23 Mai 2026",
   "changelog": {
+    "v1.1.0": {
+      "date": "23 Mai 2026",
+      "features": [
+        "Meme Overlay temps réel : Détection instantanée des mèmes (images + texte) postés sur Discord et transmission via Socket.io-client",
+        "Configuration dynamique par serveur : Prise en charge de la configuration personnalisée par guilde via le StorageService (Dashboard Web)"
+      ],
+      "features_en": [
+        "Real-time Meme Overlay: Instant detection of memes (images + text) posted on Discord and transmission via Socket.io-client",
+        "Dynamic per-server configuration: Custom per-guild configuration support via StorageService (Web Dashboard)"
+      ],
+      "fixes": [],
+      "fixes_en": []
+    },
     "v1.0.4": {
       "date": "19 Avril 2026",
       "features": [

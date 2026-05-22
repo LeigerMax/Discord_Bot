@@ -165,6 +165,7 @@ function keepAlive(client) {
       tempChannels: { enabled: false, hubChannelId: null, categoryId: null },
       tickets: { enabled: false, categoryId: null, staffRoleIds: [] },
       features: { autoFeur: true },
+      memeOverlay: { enabled: false, channelId: null },
       language: 'fr'
     };
 
