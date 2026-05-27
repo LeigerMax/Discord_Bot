@@ -1,5 +1,7 @@
 # 🚀 Guide d'Auto-Hébergement (Français)
 
+> 🇬🇧 **[English version available here](SELF_HOSTING.md)**
+
 Ce guide vous explique comment héberger votre propre instance de ce bot Discord gratuitement en utilisant **Render** et **UptimeRobot**.
 
 ---
@@ -20,7 +22,7 @@ Ce guide vous explique comment héberger votre propre instance de ce bot Discord
 
 ---
 
-## 2. Préparation du Stockage (Sans BD)
+## 2. Préparation du Stockage (Sans Base de Données)
 
 Le bot a besoin d'un salon Discord privé pour sauvegarder ses données de configuration :
 1.  Créez un salon textuel privé sur votre serveur.
@@ -52,8 +54,11 @@ PORT=10000
 3.  Configurez les paramètres suivants :
     *   **Runtime** : Node
     *   **Build Command** : `npm install`
-    *   **Start Command** : `node src/bot.js`
+    *   **Start Command** : `npm run dev`
 4.  Dans l'onglet **Environment**, ajoutez toutes les variables de votre `.env`.
+
+> [!NOTE]
+> Pour une configuration de production détaillée incluant la fonctionnalité Meme Overlay et le dépannage des problèmes, consultez le [Guide de Déploiement Render](RENDER_DEPLOY_FR.md).
 
 ---
 
@@ -73,3 +78,7 @@ Render met les services gratuits en "sommeil" après 15 minutes d'inactivité. P
 ## 6. Lancement du Dashboard
 
 Une fois déployé, visitez l'URL de votre application Render. Vous pourrez vous connecter avec votre compte Discord et configurer vos serveurs directement via l'interface web !
+
+---
+
+[⬅️ Retour au README principal](../README_FR.md)

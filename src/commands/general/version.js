@@ -70,7 +70,16 @@ module.exports = {
       // Affiche la version actuelle
       const currentVersionKey = `v${versionData.current}`;
       const currentVersionInfo = versionData.changelog[currentVersionKey];
-      const allVersions = Object.keys(versionData.changelog).reverse().slice(0, 5);
+      
+      // Tri des versions par ordre décroissant (semver) pour garantir l'affichage des plus récentes
+      const parseVersion = (v) => v.replace(/^v/, '').split('.').map(Number);
+      const allVersions = Object.keys(versionData.changelog).sort((a, b) => {
+        const [majA, minA, patA] = parseVersion(a);
+        const [majB, minB, patB] = parseVersion(b);
+        if (majB !== majA) return majB - majA;
+        if (minB !== minA) return minB - minA;
+        return patB - patA;
+      }).slice(0, 5);
       
       const currentFeatures = (isEn && currentVersionInfo?.features_en) ? currentVersionInfo.features_en : currentVersionInfo?.features;
       const currentFixes = (isEn && currentVersionInfo?.fixes_en) ? currentVersionInfo.fixes_en : currentVersionInfo?.fixes;

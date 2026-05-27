@@ -13,6 +13,8 @@ const storageService = require('./storageService');
 const YoutubeService = require('./youtubeService');
 const helmet = require('helmet');
 const csrf = require('csurf');
+const http = require('node:http');
+const { Server } = require('socket.io');
 const app = express();
 
 /**
@@ -165,6 +167,7 @@ function keepAlive(client) {
       tempChannels: { enabled: false, hubChannelId: null, categoryId: null },
       tickets: { enabled: false, categoryId: null, staffRoleIds: [] },
       features: { autoFeur: true },
+      memeOverlay: { enabled: false, channelId: null, serverUrl: '' },
       language: 'fr'
     };
 
@@ -306,9 +309,26 @@ function keepAlive(client) {
     res.sendFile(path.join(__dirname, '../public/index.html'));
   });
 
-  app.listen(PORT, '0.0.0.0', () => {
+  const server = http.createServer(app);
+  const ioServer = new Server(server, {
+    cors: {
+      origin: "*",
+      methods: ["GET", "POST"]
+    }
+  });
+
+  client.io = ioServer;
+
+  ioServer.on('connection', (socket) => {
+    console.log(`🔌 [MemeOverlay Server] Client connecté: ${socket.id}`);
+    socket.on('disconnect', () => {
+      console.log(`🔌 [MemeOverlay Server] Client déconnecté: ${socket.id}`);
+    });
+  });
+
+  server.listen(PORT, '0.0.0.0', () => {
     console.log(`\n${'='.repeat(50)}`);
-    console.log(`Dashboard actif sur le port ${PORT}`);
+    console.log(`Dashboard et WebSocket Server actifs sur le port ${PORT}`);
     console.log(`URL: http://localhost:${PORT}`);
     console.log(`${'='.repeat(50)}\n`);
   });

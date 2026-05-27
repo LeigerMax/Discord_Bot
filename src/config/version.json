@@ -1,7 +1,45 @@
 {
-  "current": "1.0.4",
-  "releaseDate": "19 Avril 2026",
+  "current": "1.2.0",
+  "releaseDate": "27 Mai 2026",
   "changelog": {
+    "v1.2.0": {
+      "date": "27 Mai 2026",
+      "features": [
+        "Intégration du Nouveau Logo & Favicon : Déploiement du nouveau logo officiel animé sur la page d'authentification, la barre latérale et comme icône d'onglet (favicon)",
+        "Refonte Graphique Premium Nexus : Unification de l'identité visuelle avec le thème 'Cyber-Minimalisme Moderne'",
+        "Design System & Glassmorphism : Intégration de panels translucides avec effet de flou arrière-plan (backdrop-filter) et bordures fines",
+        "Typographies Innovantes : Chargement de Poppins pour les en-têtes typés tech et d'Inter pour le corps de texte",
+        "Gradients Lumineux : Dégradés allant du Violet Électrique au Cyan Cyber pour les titres phares, boutons et logos",
+        "Micro-animations : Animation de flottement fluide sur la page d'authentification et lévitations douces au survol des cartes"
+      ],
+      "features_en": [
+        "New Logo & Favicon Integration: Deployed the official new animated logo on the login page, sidebar, and as the browser tab icon (favicon)",
+        "Premium Nexus Visual Overhaul: Unified brand identity with the 'Modern Cyber-Minimalism' theme",
+        "Design System & Glassmorphism: Translucent panels with backdrop-filter blur and refined thin borders",
+        "Innovative Typography: Joint load of Poppins for geometric headings and Inter for the body text",
+        "Electric Gradients: Electric Violet to Cyber Cyan color gradients for primary components, buttons, and logos",
+        "Interactive Micro-animations: Floating logo animation on the login page and smooth hovering effects on cards"
+      ],
+      "fixes": [
+        "Standardisation CSS : Nettoyage et centralisation de tous les styles personnalisés dans la feuille de style globale"
+      ],
+      "fixes_en": [
+        "CSS Standardization: Cleaned up and centralized all custom dashboard styles within the global stylesheet"
+      ]
+     },
+    "v1.1.0": {
+      "date": "23 Mai 2026",
+      "features": [
+        "Meme Overlay temps réel : Détection instantanée des mèmes (images + texte) postés sur Discord et transmission via Socket.io-client",
+        "Configuration dynamique par serveur : Prise en charge de la configuration personnalisée par guilde via le StorageService (Dashboard Web)"
+      ],
+      "features_en": [
+        "Real-time Meme Overlay: Instant detection of memes (images + text) posted on Discord and transmission via Socket.io-client",
+        "Dynamic per-server configuration: Custom per-guild configuration support via StorageService (Web Dashboard)"
+      ],
+      "fixes": [],
+      "fixes_en": []
+    },
     "v1.0.4": {
       "date": "19 Avril 2026",
       "features": [
