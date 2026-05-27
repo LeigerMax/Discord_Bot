@@ -16,6 +16,7 @@
       "stats": "Stats Live",
       "vocal_temp": "Vocal Temp",
       "tickets": "Tickets",
+      "memeoverlay": "Meme Overlay",
       "info": "Informations",
       "changelog": "Changelog",
       "github": "GitHub Project",
@@ -34,6 +35,7 @@
         "prefix": "⚡ Préfixe",
         "auto_feur": "🎭 Auto-Feur",
         "mute_duration": "⏱️ Durée Mute Roulette (s)",
+        "max_command_duration": "⏱️ Limite durée max (s)",
         "bot_language": "🌐 Langue du Bot",
         "random_taunts": "😈 Moqueries Aléatoires",
         "random_taunts_chance": "🎲 Probabilité (% par message)"
@@ -146,6 +148,15 @@
         "category_label": "Catégorie des Tickets",
         "staff_roles_label": "Rôles Staff (Accès aux tickets)",
         "note": "Utilisez `!ticket-setup` sur Discord pour envoyer le message initial."
+      },
+      "memeoverlay": {
+        "title": "Meme Overlay 📺",
+        "description": "Affichez instantanément sur votre écran les mèmes envoyés dans vos salons Discord. Les utilisateurs ayant lancé l'application compagnon Desktop verront s'afficher les images avec le texte associé.",
+        "enable": "Activer le module Meme Overlay",
+        "channel": "Salon Discord source",
+        "server_url": "URL du serveur WebSocket externe (optionnelle)",
+        "server_url_placeholder": "ex: https://mon-serveur-websocket.com",
+        "server_url_hint": "Laissez vide pour utiliser le serveur WebSocket intégré du bot (recommandé)."
       }
     },
     "actions": {
@@ -189,6 +200,7 @@
     "error_find_command": "Commande `{command}` introuvable.",
     "help_suggestion": "Utilise `{prefix}help` pour voir toutes les commandes.",
     "no_permission": "❌ Tu n'as pas la permission d'utiliser cette commande.",
+    "error_max_duration": "❌ **Erreur**: La durée maximum autorisée est de {max} secondes.",
     "requested_by": "Demandé par {user}",
     "loading": "Chargement...",
     "success": "Opération réussie !"
@@ -1146,7 +1158,7 @@
     "confirm_desc": "✅ Ton câlin secret a été envoyé à **{user}**!",
     "confirm_footer": "Aperçu du GIF envoyé",
     "dm_error": "❌ Impossible d'envoyer un message privé à {user}.",
-    "public_desc": "🤗 <@{author}> fait un câlin à <@${target}>!"
+    "public_desc": "🤗 <@{author}> fait un câlin à <@{target}>!"
   },
   "kiss": {
     "description": "Envoie un GIF de bisou à un utilisateur",
@@ -1155,7 +1167,7 @@
     "self_error": "❌ Tu ne peux pas te faire un bisou toi-même! (Enfin c'est compliqué...)",
     "secret_desc": "💋 **Quelqu'un** t'a envoyé un bisou secret!",
     "confirm_desc": "✅ Ton bisou secret a été envoyé à **{user}**!",
-    "public_desc": "💋 <@{author}> fait un bisou à <@${target}>!"
+    "public_desc": "💋 <@{author}> fait un bisou à <@{target}>!"
   },
   "slap": {
     "description": "Donne une baffe à un utilisateur",
@@ -1164,7 +1176,7 @@
     "self_error": "❌ Pourquoi tu veux te donner une baffe? 🤨",
     "secret_desc": "💥 **Quelqu'un** t'a envoyé une baffe secrète! Aïe!",
     "confirm_desc": "✅ Ta baffe secrète a été envoyée à **{user}**!",
-    "public_desc": "💥 <@{author}> {msg} <@${target}>!",
+    "public_desc": "💥 <@{author}> {msg} <@{target}>!",
     "fun_messages": [
       "a giflé",
       "a mis une tape à",

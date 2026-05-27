@@ -17,5 +17,10 @@
       "Système anti-raid",
       "Réponses automatiques"
     ]
+  },
+  "memeOverlay": {
+    "enabled": true,
+    "channelId": "METS_ICI_L_ID_DU_SALON_DISCORD",
+    "serverUrl": "https://ton-serveur-gratuit.onrender.com"
   }
 }

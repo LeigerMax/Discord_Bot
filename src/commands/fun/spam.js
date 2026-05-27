@@ -34,6 +34,13 @@ module.exports = {
         if (parsedTime < 1) {
           return message.reply(t('spam.error_min_duration'));
         }
+        
+        // Vérification de la durée max configurée
+        const maxDuration = context.config?.durationSettings?.max_duration || 3600;
+        if (parsedTime > maxDuration) {
+          return message.reply(t('common.error_max_duration', { max: maxDuration }));
+        }
+        
         durationInSeconds = parsedTime;
       }
 
@@ -70,7 +77,7 @@ module.exports = {
       const spamGifs = [
         'https://i.giphy.com/QBd2kLB5qDmysEXre9.webp',
         'https://i.giphy.com/l0HlQ7LRalQqdWfao.webp',
-        'https://i.giphy.com/H6cmWzp6LGFvqjidB7.webpp'
+        'https://i.giphy.com/H6cmWzp6LGFvqjidB7.webp'
       ];
 
       // Fonction de spam en DM avec GIF toutes les 10 secondes

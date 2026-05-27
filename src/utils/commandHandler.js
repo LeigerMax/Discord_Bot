@@ -143,9 +143,12 @@ class CommandHandler {
     // Récupère la configuration du serveur (préfixe et langue)
     let prefix = this.prefix;
     let locale = 'fr';
+    let config = {};
+
     if (message.guild) {
-      const config = storageService.get(message.guild.id);
-      if (config) {
+      const guildData = storageService.get(message.guild.id);
+      if (guildData) {
+        config = guildData;
         if (config.prefix) prefix = config.prefix;
         if (config.language) locale = config.language;
       }
@@ -180,6 +183,7 @@ class CommandHandler {
       commands: this.commands,
       prefix: prefix,
       locale: locale,
+      config: config || {},
       t: (key, params) => i18n.t(key, locale, params)
     };
 
@@ -190,6 +194,11 @@ class CommandHandler {
       try {
         await message.reply({
           content: 'Une erreur est survenue lors de l\'exécution de cette commande.'
+        }).catch(async () => {
+          // Si message.reply échoue (message supprimé), on envoie dans le canal
+          await message.channel.send({
+            content: `❌ <@${message.author.id}>, une erreur est survenue lors de l'exécution de la commande \`${commandName}\`.`
+          });
         });
       } catch (replyError) {
         console.error('Impossible d\'envoyer le message d\'erreur:', replyError);

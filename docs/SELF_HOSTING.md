@@ -1,5 +1,7 @@
 # 🚀 Self-Hosting Guide (English)
 
+> 🇫🇷 **[Version Française disponible ici](SELF_HOSTING_FR.md)**
+
 This guide explains how to host your own instance of this Discord bot for free using **Render** and **UptimeRobot**.
 
 ---
@@ -52,8 +54,11 @@ PORT=10000
 3.  Configure the following settings:
     *   **Runtime**: Node
     *   **Build Command**: `npm install`
-    *   **Start Command**: `node src/bot.js`
+    *   **Start Command**: `npm run dev`
 4.  In the **Environment** tab, add all variables from your `.env`.
+
+> [!NOTE]
+> For a detailed production setup including the Meme Overlay configuration and troubleshooting, see the [Render Deployment Guide](RENDER_DEPLOY.md).
 
 ---
 
@@ -73,3 +78,7 @@ Render's free tier services "sleep" after 15 minutes of inactivity. To prevent t
 ## 6. Access the Dashboard
 
 Once deployed, visit your Render application URL. You'll be able to log in with your Discord account and configure your servers directly through the web interface!
+
+---
+
+[⬅️ Back to main README](../README.md)

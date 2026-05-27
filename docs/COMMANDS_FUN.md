@@ -1,5 +1,7 @@
 # 🎮 Nexus Bot - Fun & Chaos Commands
 
+> 🇫🇷 **[Version Française disponible ici](COMMANDS_FUN_FR.md)**
+
 This documentation covers all the entertainment features and the advanced curse system of Nexus Bot.
 
 ---
@@ -13,7 +15,7 @@ This documentation covers all the entertainment features and the advanced curse 
 | `!coin` | Flip a coin | `!coin` |
 | `!random` | Get a random number | `!random` |
 | `!roulette` | Play Russian roulette | `!roulette` |
-| `!roulettehard` | Hardcore Russian roulette | `!roulettehard` |
+| `!roulettehard` | Hardcore Russian roulette (exclusion from server) | `!roulettehard` |
 | `!roulettemute` | Russian roulette with voice exclusion | `!roulettemute` |
 
 ## 😄 Social & Interactions
@@ -23,14 +25,14 @@ This documentation covers all the entertainment features and the advanced curse 
 | `!hug @user` | Give someone a hug | `!hug @friend` |
 | `!kiss @user` | Give someone a kiss | `!kiss @crush` |
 | `!slap @user` | Slap someone | `!slap @annoying` |
-| `!coach @user` | Motivate a member | `!coach @teammate` |
-| `!who` | Select a random member | `!who` |
+| `!coach @user` | Motivate a server member | `!coach @teammate` |
+| `!who` | Select a random server member | `!who` |
 
 ## 🎪 Chaos & Memes
 
 | Command | Description | Usage |
 |---------|-------------|-------|
-| `!spam @user` | Mention spam (King only) | `!spam @victim` |
+| `!spam @user` | Mention spam (King/Admin only) | `!spam @victim` |
 | `!rage` | Express your rage | `!rage` |
 | `!osef` | Express indifference | `!osef` |
 | `!brain` | Show brain progression meme | `!brain` |
@@ -44,39 +46,20 @@ This documentation covers all the entertainment features and the advanced curse 
 
 The curse system is one of the bot's most advanced features, allowing you to alter the messages or behavior of a user.
 
-### Global Commands
+### General Commands
 | Command | Description | Usage |
 |---------|-------------|-------|
 | `!curse @user [duration]` | Curse a player (random type) | `!curse @victim 10` |
 | `!curse random [duration]` | Curse a random voice member | `!curse random 5` |
 | `!curse hidden @user [duration] [TYPE]` | Secret curse (Admin/King) | `!curse hidden @victim 10 UWU_MODE` |
-| `!curse types` | List all types via DM | `!curse types` |
+| `!curse types` | List all available types via direct message | `!curse types` |
 | `!curse list` | View currently cursed players | `!curse list` |
 | `!curse clear` | Cancel all active curses | `!curse clear` |
 
 ### 📋 Available Curse Types
 
-#### Command Alteration
-- **RANDOM_RESPONSES**: Commands return absurd random responses.
-- **IGNORED**: The bot completely ignores the user.
-- **BLOCKED**: No commands work anymore.
-- **WORST_LUCK**: Game results are always the minimum possible.
-- **REVERSED**: Commands target the sender instead of the target.
-
-#### Message Alteration
-- **UWU_MODE**: Speak in UwU (H-Hewwo!).
-- **YODA_MODE**: Speak like Master Yoda.
-- **PIRATE_MODE**: Speak like a pirate.
-- **CAPS_LOCK**: SHOUT ALL THE TIME!!!!
-- **REVERSE_TEXT**: Write backwards.
-- **VOWEL_REMOVER**: All vowels are removed.
-- **CLOWN_MODE**: Adds clown emojis everywhere 🤡.
-
-#### Social & Technical Curses
-- **PUBLIC_SHAME**: The bot mocks you periodically.
-- **VOICE_MUTE**: Forced voice mute with monitoring.
-- **GARBLED**: Commands are deformed before execution.
+To view the details and effects of each curse type, check the **[Curse Guide (EN)](CURSES_LIST.md)** or **[Guide des Malédictions (FR)](CURSES_LIST_FR.md)**.
 
 ---
 
-[⬅️ Back to main README](README.md)
+[⬅️ Back to main README](../README.md) | 🇫🇷 [Version Française](COMMANDS_FUN_FR.md)

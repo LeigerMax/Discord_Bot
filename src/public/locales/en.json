@@ -1,9 +1,206 @@
 {
+  "dashboard": {
+    "title": "Nexus Dashboard",
+    "nav": {
+      "servers": "Servers",
+      "configuration": "Configuration",
+      "general": "General",
+      "players": "Players",
+      "welcome": "Welcome",
+      "security": "Security",
+      "monitoring": "Monitoring",
+      "curses": "Curses",
+      "automates": "Automates",
+      "audit": "Audit",
+      "youtube": "YouTube",
+      "stats": "Live Stats",
+      "vocal_temp": "Vocal Temp",
+      "tickets": "Tickets",
+      "memeoverlay": "Meme Overlay",
+      "info": "Information",
+      "changelog": "Changelog",
+      "github": "GitHub Project",
+      "logout": "Logout",
+      "ui_language": "Interface Language"
+    },
+    "hub": {
+      "welcome": "Welcome,",
+      "select_server": "Select a server to configure.",
+      "back": "← Back to Hub"
+    },
+    "tabs": {
+      "general": {
+        "title": "General Settings",
+        "description": "Basic bot settings for this server. Change the command prefix or enable funny auto-responses (Auto-Feur).",
+        "prefix": "⚡ Prefix",
+        "auto_feur": "🎭 Auto-Feur",
+        "mute_duration": "⏱️ Roulette Mute Duration (s)",
+        "max_command_duration": "⏱️ Max command limit (s)",
+        "bot_language": "🌐 Bot Language",
+        "random_taunts": "😈 Random Taunts",
+        "random_taunts_chance": "🎲 Probability (% per message)"
+      },
+      "players": {
+        "title": "Player Management",
+        "description": "Define special server privileges. Kings are immune to bot effects, while Loosers are the primary targets for curses and draws.",
+        "kings": "👑 Kings",
+        "loosers": "🤡 Loosers",
+        "weekly_rotation": "Automatic weekly rotation of the Looser"
+      },
+      "welcome": {
+        "title": "Welcome System",
+        "description": "Automatically welcome new members in the channel of your choice with a personalized message.",
+        "enable": "Enable system",
+        "channel": "Welcome channel",
+        "message": "Message"
+      },
+      "security": {
+        "title": "Security & Anti-Raid",
+        "description": "Protect your server against mass raids. The system detects rapid arrivals and takes automatic measures (Kick/Ban).",
+        "enable": "Enable Anti-Raid",
+        "limit": "Limit",
+        "window": "Window (s)",
+        "action": "Punitive Action",
+        "kick": "Kick",
+        "ban": "Ban"
+      },
+      "monitoring": {
+        "title": "Presence Monitoring",
+        "description": "Be notified immediately when certain members connect or disconnect. Ideal for not missing the arrival of a friend or a monitored Looser.",
+        "enable": "Enable monitoring",
+        "members": "Members to monitor",
+        "channel": "Alert channel"
+      },
+      "curses": {
+        "title": "Curses Management",
+        "description": "The bot has many fun curses (Voice mute, Spam, Text inversion, etc.). Disable here those you find too intrusive.",
+        "default_duration": "⏱️ Default curse duration (in seconds)",
+        "types": {
+          "RANDOM_RESPONSES": "🎲 Random Responses",
+          "IGNORED": "👻 Ignored",
+          "BLOCKED": "🚫 Blocked",
+          "WORST_LUCK": "💀 Bad Luck",
+          "PUBLIC_SHAME": "📢 Public Shame",
+          "GARBLED": "🔀 Scrambled Messages",
+          "VOICE_MUTE": "🔇 Voice Mute",
+          "SPAM": "💥 Mention Spam",
+          "REVERSED": "🔄 Reversed Commands",
+          "SLOW_MODE": "🐌 Slow Mode",
+          "MESSAGE_SCRAMBLER": "🔀 Word Scrambler",
+          "MESSAGE_OPPOSER": "🔄 Opposite",
+          "CLOWN_MODE": "🤡 Clown Mode",
+          "UWU_MODE": "😺 UwU Mode",
+          "YODA_MODE": "🗣️ Yoda Mode",
+          "CAPS_LOCK": "📢 CAPS LOCK",
+          "PIRATE_MODE": "🏴‍☠️ Pirate Mode",
+          "VOWEL_REMOVER": "🎯 Vowel Remover"
+        }
+      },
+      "automates": {
+        "title": "Automated Messages",
+        "description": "Manage repetitive messages activated via the `!auto` command. You can stop them here without needing Discord commands.",
+        "empty": "No active automate.",
+        "stop_btn": "Stop"
+      },
+      "youtube": {
+        "title": "YouTube Multi-Channel Notifications 📺",
+        "description": "Alert your members as soon as one of your favorite channels publishes a new video. Enter a `@handle` or YouTube link to add a channel.",
+        "enable": "Enable module",
+        "add_label": "Add channel",
+        "add_placeholder": "@handle or URL",
+        "add_btn": "Add",
+        "resolving": "🔍 Resolving channel...",
+        "added": "✅ Channel added (ID: {id})",
+        "not_found": "❌ Channel not found.",
+        "empty": "No feeds configured.",
+        "chan_id_label": "Channel ID",
+        "discord_chan_label": "Discord Channel",
+        "msg_label": "Message",
+        "msg_placeholder": "🔴 New video!",
+        "delete_btn": "Delete"
+      },
+      "audit": {
+        "title": "Audit Moderation Logs (v1.0.0)",
+        "description": "Automatically track all crucial server actions. Modifications, deletions, and voice movements will be sent to a dedicated channel in real time.",
+        "enable": "Enable Audit system",
+        "channel": "Audit Logs Channel",
+        "privacy_warning": "⚠️ **Privacy**: Deleted or modified messages may be sensitive. Ensure only staff has access to this channel."
+      },
+      "stats": {
+        "title": "Live Server Stats",
+        "description": "Display your server statistics in real time in locked voice channel names.",
+        "enable": "Enable Live Stats",
+        "total_label": "Channel: Total Members",
+        "online_label": "Channel: Online",
+        "note": "Note: The bot will rename these channels automatically every 10 minutes."
+      },
+      "vocal_temp": {
+        "title": "Temporary Voice Channels",
+        "description": "Automatically create private channels when a member joins a \"Hub\" channel.",
+        "enable": "Enable Temp Channels",
+        "hub_label": "Hub Channel (Voice)",
+        "category_label": "Target category"
+      },
+      "tickets": {
+        "title": "Ticket System",
+        "description": "Allow members to open private support tickets with the team.",
+        "enable": "Enable Tickets",
+        "category_label": "Tickets Category",
+        "staff_roles_label": "Staff Roles (Ticket access)",
+        "note": "Use `!ticket-setup` on Discord to send the initial message."
+      },
+      "memeoverlay": {
+        "title": "Meme Overlay 📺",
+        "description": "Instantly display memes sent in your Discord channels on your screen. Users running the companion Desktop app will see the images with their associated text.",
+        "enable": "Enable Meme Overlay module",
+        "channel": "Source Discord channel",
+        "server_url": "External WebSocket server URL (optional)",
+        "server_url_placeholder": "e.g. https://my-websocket-server.com",
+        "server_url_hint": "Leave blank to use the bot's integrated WebSocket server (recommended)."
+      }
+    },
+    "actions": {
+      "save": "Save Changes 💾",
+      "none_option": "None",
+      "success_toast": "✅ Action successful!"
+    },
+    "updates": {
+      "banner_title": "🚀 New version available!",
+      "view_btn": "See what's new",
+      "desc": "Version {version} ({name}) is available."
+    },
+    "curses_types": {
+      "RANDOM_RESPONSES": "🎲 Random Responses",
+      "IGNORED": "👻 Ignored",
+      "BLOCKED": "🚫 Blocked",
+      "WORST_LUCK": "💀 Bad Luck",
+      "PUBLIC_SHAME": "📢 Public Shame",
+      "GARBLED": "🔀 Scrambled Messages",
+      "VOICE_MUTE": "🔇 Voice Mute",
+      "SPAM": "💥 Mention Spam",
+      "REVERSED": "🔄 Reversed Commands",
+      "SLOW_MODE": "🐌 Slow Mode",
+      "MESSAGE_SCRAMBLER": "🔀 Word Scrambler",
+      "MESSAGE_OPPOSER": "🔄 Opposite",
+      "CLOWN_MODE": "🤡 Clown Mode",
+      "UWU_MODE": "😺 UwU Mode",
+      "YODA_MODE": "🗣️ Yoda Mode",
+      "CAPS_LOCK": "📢 CAPS LOCK",
+      "PIRATE_MODE": "🏴‍☠️ Pirate Mode",
+      "VOWEL_REMOVER": "🎯 Vowel Remover"
+    },
+    "index": {
+      "title": "Nexus Dashboard",
+      "desc": "Take control of your Discord server with a modern, smooth, and intuitive interface. Configure your modules in just a few clicks.",
+      "login_btn": "Log in with Discord"
+    }
+  },
   "common": {
     "error": "❌ An error occurred while processing your command.",
     "error_find_command": "Command `{command}` not found.",
     "help_suggestion": "Use `{prefix}help` to see all commands.",
     "no_permission": "❌ You do not have permission to use this command.",
+    "error_max_duration": "❌ **Error**: Maximum allowed duration is {max} seconds.",
     "requested_by": "Requested by {user}",
     "loading": "Loading...",
     "success": "Operation successful!"
@@ -134,6 +331,7 @@
         "prefix": "⚡ Prefix",
         "auto_feur": "🎭 Auto-Feur",
         "mute_duration": "⏱️ Roulette Mute Duration (s)",
+        "max_command_duration": "⏱️ Max Duration Limit (s)",
         "bot_language": "🌐 Bot Language",
         "random_taunts": "😈 Random Taunts",
         "random_taunts_chance": "🎲 Probability (% per message)"
@@ -1146,7 +1344,7 @@
     "confirm_desc": "✅ Your secret hug has been sent to **{user}**!",
     "confirm_footer": "Preview of the sent GIF",
     "dm_error": "❌ Unable to send a private message to {user}.",
-    "public_desc": "🤗 <@{author}> gives a hug to <@${target}>!"
+    "public_desc": "🤗 <@{author}> gives a hug to <@{target}>!"
   },
   "kiss": {
     "description": "Sends a kiss GIF to a user",
@@ -1155,7 +1353,7 @@
     "self_error": "❌ You can't kiss yourself! (Well, it's complicated...)",
     "secret_desc": "💋 **Someone** sent you a secret kiss!",
     "confirm_desc": "✅ Your secret kiss has been sent to **{user}**!",
-    "public_desc": "💋 <@{author}> gives a kiss to <@${target}>!"
+    "public_desc": "💋 <@{author}> gives a kiss to <@{target}>!"
   },
   "slap": {
     "description": "Slaps a user",
@@ -1164,7 +1362,7 @@
     "self_error": "❌ Why do you want to slap yourself? 🤨",
     "secret_desc": "💥 **Someone** sent you a secret slap! Ouch!",
     "confirm_desc": "✅ Your secret slap has been sent to **{user}**!",
-    "public_desc": "💥 <@{author}> {msg} <@${target}>!",
+    "public_desc": "💥 <@{author}> {msg} <@{target}>!",
     "fun_messages": [
       "slapped",
       "poked",

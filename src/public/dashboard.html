@@ -5,29 +5,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Nexus Dashboard - Configuration du Bot</title>
+    <link rel="icon" type="image/jpeg" href="logo.jpg">
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <style>
-        .yt-list {
-            margin-top: 20px;
-        }
-
-        .yt-item {
-            background: var(--bg-dark);
-            padding: 1.5rem;
-            border-radius: 1rem;
-            border: 1px solid var(--border);
-            margin-bottom: 1.5rem;
-            position: relative;
-        }
-
-        .yt-item-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 1.25rem;
-        }
-    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Poppins:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 </head>
 
 <body>
@@ -36,9 +16,7 @@
         <!-- Sidebar -->
         <aside id="sidebar" class="sidebar">
             <div class="sidebar-header">
-                <div
-                    style="width: 32px; height: 32px; background: var(--primary); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-weight: bold;">
-                    N</div>
+                <img src="logo.jpg" alt="Logo" style="width: 34px; height: 34px; border-radius: 8px; object-fit: cover; border: 1px solid rgba(255, 255, 255, 0.15);">
                 <h2 data-i18n="dashboard.title">Nexus Dashboard</h2>
             </div>
 
@@ -146,6 +124,10 @@
                         <div class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg></div>
                         <span data-i18n="dashboard.nav.tickets">Tickets</span>
                     </div>
+                    <div class="nav-item tab-btn" onclick="switchTab('tab-memeoverlay')">
+                        <div class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg></div>
+                        <span data-i18n="dashboard.nav.memeoverlay">Meme Overlay</span>
+                    </div>
                 </div>
 
                 <div style="margin-top: 1.5rem;">
@@ -207,7 +189,7 @@
 
             <!-- Section Hub -->
             <div id="guild-selector">
-                <h1 data-i18n="dashboard.hub.welcome">Bienvenue,</h1>
+                <h1 class="nexus-gradient-text" data-i18n="dashboard.hub.welcome">Bienvenue,</h1>
                 <p data-i18n="dashboard.hub.select_server" style="color: var(--text-muted); margin-bottom: 2rem;">Sélectionnez un serveur à configurer.</p>
                 <div id="guild-list" class="guild-list"></div>
             </div>
@@ -216,7 +198,7 @@
                 <div class="card"
                     style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
                     <div>
-                        <h1 id="guild-name">Configuration</h1>
+                        <h1 id="guild-name" class="nexus-gradient-text">Configuration</h1>
                         <p id="guild-id-badge" style="font-size: 0.8rem; color: var(--text-muted);">ID: -</p>
                     </div>
                     <button class="btn btn-secondary" onclick="showHub()" data-i18n="dashboard.hub.back">← Retour au Hub</button>
@@ -252,6 +234,10 @@
                                             type="checkbox" id="randomTaunts"><span class="slider"></span></label></div>
                                 <div class="form-group"><label data-i18n="dashboard.tabs.general.random_taunts_chance">🎲 Probabilité (% par message)</label><input type="number"
                                         id="randomTauntsChance" min="0" max="100" step="0.1"></div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group"><label data-i18n="dashboard.tabs.general.max_command_duration">⏱️ Limite durée max (s)</label><input type="number" id="maxCommandDuration" min="1"></div>
+                                <div class="form-group"></div>
                             </div>
                         </div>
                     </div>
@@ -434,6 +420,30 @@
                         </div>
                     </div>
 
+                    <!-- Tab: Meme Overlay -->
+                    <div id="tab-memeoverlay" class="config-tab-content">
+                        <div class="card">
+                            <h3 data-i18n="dashboard.tabs.memeoverlay.title">Meme Overlay 📺</h3>
+                            <p class="tab-description" data-i18n="dashboard.tabs.memeoverlay.description">Affichez instantanément sur votre écran les mèmes envoyés dans vos salons Discord.</p>
+                            <div class="form-group">
+                                <label data-i18n="dashboard.tabs.memeoverlay.enable">Activer le module Meme Overlay</label>
+                                <label class="switch">
+                                    <input type="checkbox" id="memeOverlayEnabled">
+                                    <span class="slider"></span>
+                                </label>
+                            </div>
+                            <div class="form-group">
+                                <label data-i18n="dashboard.tabs.memeoverlay.channel">Salon Discord source</label>
+                                <select id="memeOverlayChannelId"></select>
+                            </div>
+                            <div class="form-group">
+                                <label data-i18n="dashboard.tabs.memeoverlay.server_url">URL du serveur WebSocket externe (optionnelle)</label>
+                                <input type="text" id="memeOverlayServerUrl" data-i18n-placeholder="dashboard.tabs.memeoverlay.server_url_placeholder" placeholder="ex: https://mon-serveur-websocket.com" style="width: 100%; padding: 0.75rem; border-radius: 0.5rem; background: var(--bg-dark); border: 1px solid var(--border); color: var(--text); font-family: inherit;">
+                                <p data-i18n="dashboard.tabs.memeoverlay.server_url_hint" style="font-size: 0.8rem; color: var(--text-muted); margin-top: 0.5rem;">Laissez vide pour utiliser le serveur WebSocket intégré du bot (recommandé).</p>
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="actions"
                         style="margin-top: 2rem; display: flex; justify-content: flex-end; border-top: 1px solid var(--border); padding-top: 1.5rem;">
                         <button type="submit" class="btn btn-primary" data-i18n="dashboard.actions.save"
@@ -515,6 +525,11 @@
                 const key = el.getAttribute('data-i18n');
                 const text = getNestedValue(currentTranslations, key);
                 if (text) el.innerText = text;
+            });
+            document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+                const key = el.getAttribute('data-i18n-placeholder');
+                const text = getNestedValue(currentTranslations, key);
+                if (text) el.setAttribute('placeholder', text);
             });
         }
 
@@ -740,6 +755,7 @@
             document.getElementById('auditEnabled').checked = config.audit?.enabled || false;
             document.getElementById('rouletteMuteDuration').value = config.rouletteMuteDuration || 300;
             document.getElementById('curseDefaultDuration').value = config.curseSettings?.defaultDuration || 300;
+            document.getElementById('maxCommandDuration').value = config.durationSettings?.max_duration || 3600;
             document.getElementById('bot-language').value = config.language || 'fr';
 
             // Sélecteurs de salons textuels
@@ -770,6 +786,11 @@
             document.getElementById('ticketsEnabled').checked = config.tickets?.enabled || false;
             setSelByType('ticketsCategoryId', config.tickets?.categoryId, 4); // Category
             renderRoleList('staff-roles-list', roles, config.tickets?.staffRoleIds || []);
+
+            // Meme Overlay
+            document.getElementById('memeOverlayEnabled').checked = config.memeOverlay?.enabled || false;
+            document.getElementById('memeOverlayServerUrl').value = config.memeOverlay?.serverUrl || '';
+            setSelByType('memeOverlayChannelId', config.memeOverlay?.channelId, 0); // Text
         }
 
         // Helper pour peupler les sélecteurs par type
@@ -828,10 +849,18 @@
                     defaultDuration: parseInt(document.getElementById('curseDefaultDuration').value) || 300
                 },
                 rouletteMuteDuration: parseInt(document.getElementById('rouletteMuteDuration').value) || 300,
+                durationSettings: {
+                    max_duration: parseInt(document.getElementById('maxCommandDuration').value) || 3600
+                },
                 youtube: { enabled: document.getElementById('ytEnabled').checked, channels: ytChannels },
                 stats: { enabled: document.getElementById('statsEnabled').checked, totalChannelId: document.getElementById('statsTotalChannelId').value, onlineChannelId: document.getElementById('statsOnlineChannelId').value },
                 tempChannels: { enabled: document.getElementById('tempChannelsEnabled').checked, hubChannelId: document.getElementById('tempHubChannelId').value, categoryId: document.getElementById('tempCategoryId').value },
                 tickets: { enabled: document.getElementById('ticketsEnabled').checked, categoryId: document.getElementById('ticketsCategoryId').value, staffRoleIds: Array.from(document.querySelectorAll('#staff-roles-list input:checked')).map(c => c.value) },
+                memeOverlay: {
+                    enabled: document.getElementById('memeOverlayEnabled').checked,
+                    channelId: document.getElementById('memeOverlayChannelId').value || null,
+                    serverUrl: document.getElementById('memeOverlayServerUrl').value || ''
+                },
                 features: { 
                     autoFeur: document.getElementById('autoFeur').checked,
                     randomTaunts: document.getElementById('randomTaunts').checked,
