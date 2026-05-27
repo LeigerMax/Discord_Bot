@@ -1,5 +1,7 @@
 # 👹 Guide des Malédictions (CURSES)
 
+> 🇬🇧 **[English version available here](CURSES_LIST.md)**
+
 Le bot propose actuellement **21 types de malédictions** différentes que tu peux lancer sur les membres du serveur. 
 
 ### ⚙️ Syntaxe des Commandes
@@ -7,14 +9,6 @@ Le bot propose actuellement **21 types de malédictions** différentes que tu pe
 - **Lancer une malédiction spécifique (caché)** : `!curse hidden @joueur [durée] [TYPE]`
 - **Exemple** : `!curse hidden @victim 15 UWU_MODE`
 
----
-
-## 🧩 Nouveau : L'Épreuve Suprême
-| Type | Nom | Effet |
-| :--- | :--- | :--- |
-| `CHALLENGE` | 🧩 **Épreuve du Scribe** | **Bloque tout (Chat + Vocal + Commandes)**. L'utilisateur doit recopier une phrase complexe (virelangue) pour être libéré. |
-
----
 
 ## 💬 Altération des Messages (Chat)
 Ces malédictions modifient ce que l'utilisateur écrit dans les salons textuels.
@@ -61,7 +55,13 @@ Ces malédictions changent la façon dont le bot interagit avec l'utilisateur.
 | `VOICE_MUTE` | 🔇 **Mute Vocal** | Muté de force dans tous les salons vocaux. |
 | `PUBLIC_SHAME` | 📢 **Honte Publique** | Le bot affiche régulièrement des messages moqueurs sur l'utilisateur. |
 | `SPAM` | 💥 **Spam de Mentions** | Le bot mentionne l'utilisateur de manière intempestive. |
+| `CHALLENGE` | 🧩 **Épreuve du Scribe** | **Bloque tout (Chat + Vocal + Commandes)**. L'utilisateur doit recopier une phrase complexe (virelangue) pour être libéré. |
+
 
 ---
 
 *Bonne chance à tous les maudits ! 😈*
+
+---
+
+[⬅️ Retour aux Commandes Fun](COMMANDS_FUN_FR.md) | 🇬🇧 [English Version](CURSES_LIST.md)
